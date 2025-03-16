@@ -29,12 +29,12 @@ tag:
 
 ## 3. Implementation
 ### 3.1. Install Required Libraries
-```
+```python
 !pip install -i https://pypi.tuna.tsinghua.edu.cn/simple llama-index-graph-stores-neo4j graspologic numpy scipy==1.12.0 future 
 ```
 ### 3.2. Load Data
 #### 3.2.1. Load CSV file with three columns: title, date, and text
-```
+```python
 import pandas as pd
 from llama_index.core import Document
 
@@ -53,11 +53,11 @@ news.head()
 3	Epic's latest tool can animate hyperrealistic ...|	2023-06-15T14:00:00.000000000+00:00|	Today, Epic is releasing a new tool designed t...|
 4	EU to Ban Huawei, ZTE from Internal Commission...|	2023-06-15T13:50:00.000000000+00:00|	The European Commission is planning to ban equ...|
 #### 3.2.2. Concatenate title and text to get documents
-```
+```python
 documents = [Document(text=f'{row['title']}:{row['text']}') for i,row in news.iterrows()]
 ```
 #### 3.2.3. Split Text Blocks
-```
+```python
 from llama_index.core.node_parser import SentenceSplitter
 
 splitter = SentenceSplitter(
@@ -67,16 +67,16 @@ splitter = SentenceSplitter(
 nodes = splitter.get_nodes_from_documents(documents)
 ```
 #### 3.2.4. Verification
-```
+```python
 len(nodes)
 ```
 > 10
-```
+```python
 print(nodes[0].text)
 ```
 > Chevron: Best Of Breed:JHVEPhoto Like many companies in the O&G sector, the stock of Chevron (NYSE:CVX) has declined about 10% over the past 90-days despite the fact that Q2 consensus earnings estimates have risen sharply (~25%) during that same time frame. Over the years, Chevron has kept a very strong balance sheet. That allowed the...
 
-```
+```python
 print(nodes[1].text)
 ```
 > FirstEnergy (NYSE:FE) Posts Earnings Results:FirstEnergy (NYSE:FE – Get Rating) posted its earnings results on Tuesday. The utilities provider reported $0.53 earnings per share for the quarter, topping the consensus estimate of $0.52 by $0.01, RTT News reports. FirstEnergy had a net margin of 10.85% and a return on equity of 17.17%. During the same period...
@@ -100,7 +100,7 @@ Top News
     - 2. Obtain the LLM's response: extracted entities and relationships and their descriptions
     - 3. Parse the LLM's response using parse_fn to get EntityNode and Relation objects
     - 4. Add the extracted entities and relationships information from all text blocks to the node metadata under KG_NODES_KEY and KG_RELATIONS_KEY
-```
+```python
 import asyncio
 import nest_asyncio
 
@@ -246,9 +246,10 @@ class GraphRAGExtractor(TransformComponent):
 ```
 
 #### 3.3.2. Use Local Ollama Model and Set as Global LLM
-```
+```python
 import os
 from llama_index.llms.ollama import Ollama
+from llama_index.core import Settings
 
 os.environ["no_proxy"] = "127.0.0.1,localhost"
 
@@ -257,7 +258,7 @@ llm = Ollama(model="llama3", request_timeout=660.0)
 Settings.llm = llm
 ```
 Test if it works
-```
+```python
 response = llm.complete("What is the capital of France?")
 print(response)
 ```
@@ -266,13 +267,12 @@ print(response)
 > The capital of France is Paris.
 
 #### 3.3.3. Use Local Ollama Embedding Model and Set as Global embed_model
-```
+```python
 !pip install llama-index-embeddings-ollama
 ```
 
-```
+```python
 from llama_index.embeddings.ollama import OllamaEmbedding
-from llama_index.core import Settings
 
 ollama_embedding = OllamaEmbedding(
     model_name="nomic-embed-text",
@@ -286,7 +286,7 @@ Settings.embed_model = ollama_embedding
 ```
 
 #### 3.3.4. Define extract_prompt
-```
+```python
 KG_TRIPLET_EXTRACT_TMPL = """
 -Goal-
 Given a text document, identify all entities and their entity types from the text and all relationships among the identified entities.
@@ -352,7 +352,7 @@ text: {text}
 output:"""
 ```
 #### 3.3.5. Define parse_fn
-```
+```python
 import json
 import re
 
@@ -376,7 +376,7 @@ def parse_fn(response_str: str) -> Any:
         return entities, relationships
 ```
 #### 3.3.6. Instantiate GraphRAGExtractor as kg_extractor Object
-```    
+```python    
 kg_extractor = GraphRAGExtractor(
     llm=llm,
     extract_prompt=KG_TRIPLET_EXTRACT_TMPL,
@@ -406,7 +406,7 @@ Key Methods
 - get_community_summaries()
     - Return community summaries, building them if not already done
 
-```
+```python
 import re
 import networkx as nx
 from graspologic.partition import hierarchical_leiden
@@ -510,7 +510,7 @@ class GraphRAGStore(Neo4jPropertyGraphStore):
 ```
 
 #### 3.4.2. Instantiate GraphRAGStore as graph_store Object Using Local Neo4j Graph Database
-```
+```python
 from llama_index.graph_stores.neo4j import Neo4jPropertyGraphStore
 
 # Note: used to be `Neo4jPGStore`
@@ -525,7 +525,7 @@ graph_store = GraphRAGStore(
 - kg_extractor from 3.3.6
 - graph_store from 3.4.2
 
-```
+```python
 from llama_index.core import PropertyGraphIndex
 
 index = PropertyGraphIndex(
@@ -572,11 +572,11 @@ parse_fn ---> relationships:
 [('Chevron', 'Chevron', 'has', 'Chevron has a strong balance sheet.')]
 ```
 #### 3.5.2. Verification
-```
+```python
 len(index.property_graph_store.get_triplets())
 ```
 > 148
-```
+```python
 index.property_graph_store.get_triplets()[10]
 ```
 > [EntityNode(label='Company', embedding=None, properties={'id': 'FirstEnergy', 'entity_description': 'FirstEnergy (NYSE:FE) is a utilities provider', 'triplet_source_id': '144af8a1-4078-4991-a234-4fc930bcd029'}, name='FirstEnergy'),
@@ -586,7 +586,7 @@ index.property_graph_store.get_triplets()[10]
 ### 3.6. Build Communities and Generate Community Summaries
 Use community detection algorithms to group related nodes in the graph, then use a large language model (LLM) to generate summaries for each community.
 
-```
+```python
 index.property_graph_store.build_communities()
 ```
 
@@ -611,7 +611,7 @@ index.property_graph_store.build_communities()
     - 2. Generate specific answers for the query from each community summary
     - 3. Aggregate all community-specific answers into a final, coherent response
 
-```
+```python
 from llama_index.core.query_engine import CustomQueryEngine
 from llama_index.core.llms import LLM
 from llama_index.core import PropertyGraphIndex
@@ -721,7 +721,7 @@ class GraphRAGQueryEngine(CustomQueryEngine):
 
 
 #### 3.7.2. Instantiate GraphRAGQueryEngine as query_engine Object
-```
+```python
 query_engine = GraphRAGQueryEngine(
     graph_store=index.property_graph_store, 
     llm=llm,
@@ -730,7 +730,7 @@ query_engine = GraphRAGQueryEngine(
 )
 ```
 #### 3.7.3. Retrieve Information
-```
+```python
 response = query_engine.query(
     "What are the main news discussed in the document?"
 )

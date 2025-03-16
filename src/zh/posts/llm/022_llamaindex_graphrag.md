@@ -28,12 +28,12 @@ tag:
 
 ## 3. 实现
 ### 3.1. 安装需要的库
-```
+```python
 !pip install -i https://pypi.tuna.tsinghua.edu.cn/simple llama-index-graph-stores-neo4j graspologic numpy scipy==1.12.0 future 
 ```
 ### 3.2. 加载数据
 #### 3.2.1. 加载csv文件，该文件有3列，分别是标题、日期和文本
-```
+```python
 import pandas as pd
 from llama_index.core import Document
 
@@ -52,11 +52,11 @@ news.head()
 3	Epic’s latest tool can animate hyperrealistic ...|	2023-06-15T14:00:00.000000000+00:00|	Today, Epic is releasing a new tool designed t...|
 4	EU to Ban Huawei, ZTE from Internal Commission...|	2023-06-15T13:50:00.000000000+00:00|	The European Commission is planning to ban equ...|
 #### 3.2.2. 拼接title和text，得到documents
-```
+```python
 documents = [Document(text=f'{row['title']}:{row['text']}') for i,row in news.iterrows()]
 ```
 #### 3.2.3. 分割文本块
-```
+```python
 from llama_index.core.node_parser import SentenceSplitter
 
 splitter = SentenceSplitter(
@@ -66,16 +66,16 @@ splitter = SentenceSplitter(
 nodes = splitter.get_nodes_from_documents(documents)
 ```
 #### 3.2.4. 验证
-```
+```python
 len(nodes)
 ```
 > 10
-```
+```python
 print(nodes[0].text)
 ```
 > Chevron: Best Of Breed:JHVEPhoto Like many companies in the O&G sector, the stock of Chevron (NYSE:CVX) has declined about 10% over the past 90-days despite the fact that Q2 consensus earnings estimates have risen sharply (~25%) during that same time frame. Over the years, Chevron has kept a very strong balance sheet. That allowed the...
 
-```
+```python
 print(nodes[1].text)
 ```
 > FirstEnergy (NYSE:FE) Posts Earnings Results:FirstEnergy (NYSE:FE – Get Rating) posted its earnings results on Tuesday. The utilities provider reported $0.53 earnings per share for the quarter, topping the consensus estimate of $0.52 by $0.01, RTT News reports. FirstEnergy had a net margin of 10.85% and a return on equity of 17.17%. During the same period...
@@ -99,7 +99,7 @@ Top News
     - 2.得到llm的响应结果：抽取出的实体和关系以及对它们的描述
     - 3.通过parse_fn解析llm的响应结果，得到EntityNode和Relation对象
     - 4.将所有文本块解析出的实体和关系的信息添加到KG_NODES_KEY和KG_RELATIONS_KEY的节点元数据下
-```
+```python
 import asyncio
 import nest_asyncio
 
@@ -245,9 +245,10 @@ class GraphRAGExtractor(TransformComponent):
 ```
 
 #### 3.3.2. 采用ollama本地模型，并设为全局llm
-```
+```python
 import os
 from llama_index.llms.ollama import Ollama
+from llama_index.core import Settings
 
 os.environ["no_proxy"] = "127.0.0.1,localhost"
 
@@ -256,7 +257,7 @@ llm = Ollama(model="llama3", request_timeout=660.0)
 Settings.llm = llm
 ```
 测试是否能调通
-```
+```python
 response = llm.complete("What is the capital of France?")
 print(response)
 ```
@@ -265,13 +266,12 @@ print(response)
 > The capital of France is Paris.
 
 #### 3.3.3. 采用ollama本地embedding模型，并设为全局embed_model
-```
+```python
 !pip install llama-index-embeddings-ollama
 ```
 
-```
+```python
 from llama_index.embeddings.ollama import OllamaEmbedding
-from llama_index.core import Settings
 
 ollama_embedding = OllamaEmbedding(
     model_name="nomic-embed-text",
@@ -285,7 +285,7 @@ Settings.embed_model = ollama_embedding
 ```
 
 #### 3.3.4. 定义extract_prompt
-```
+```python
 KG_TRIPLET_EXTRACT_TMPL = """
 -Goal-
 Given a text document, identify all entities and their entity types from the text and all relationships among the identified entities.
@@ -351,7 +351,7 @@ text: {text}
 output:"""
 ```
 #### 3.3.5. 定义parse_fn
-```
+```python
 import json
 import re
 
@@ -375,7 +375,7 @@ def parse_fn(response_str: str) -> Any:
         return entities, relationships
 ```
 #### 3.3.6. 实例化GraphRAGExtractor为kg_extractor对象
-```    
+```python    
 kg_extractor = GraphRAGExtractor(
     llm=llm,
     extract_prompt=KG_TRIPLET_EXTRACT_TMPL,
@@ -405,7 +405,7 @@ kg_extractor = GraphRAGExtractor(
 - get_community_summaries()
     - 返回社区摘要，如果尚未生成，则先构建它们
 
-```
+```python
 import re
 import networkx as nx
 from graspologic.partition import hierarchical_leiden
@@ -509,7 +509,7 @@ class GraphRAGStore(Neo4jPropertyGraphStore):
 ```
 
 #### 3.4.2. 实例化GraphRAGStore为graph_store对象，采用本地neo4j图数据库
-```
+```python
 from llama_index.graph_stores.neo4j import Neo4jPropertyGraphStore
 
 # Note: used to be `Neo4jPGStore`
@@ -525,7 +525,7 @@ graph_store = GraphRAGStore(
 - graph_store来自3.4.2
 
 
-```
+```python
 from llama_index.core import PropertyGraphIndex
 
 index = PropertyGraphIndex(
@@ -572,11 +572,11 @@ parse_fn ---> relationships:
 [('Chevron', 'Chevron', 'has', 'Chevron has a strong balance sheet.')]
 ```
 #### 3.5.2. 验证
-```
+```python
 len(index.property_graph_store.get_triplets())
 ```
 > 148
-```
+```python
 index.property_graph_store.get_triplets()[10]
 ```
 > [EntityNode(label='Company', embedding=None, properties={'id': 'FirstEnergy', 'entity_description': 'FirstEnergy (NYSE:FE) is a utilities provider', 'triplet_source_id': '144af8a1-4078-4991-a234-4fc930bcd029'}, name='FirstEnergy'),
@@ -586,7 +586,7 @@ index.property_graph_store.get_triplets()[10]
 ### 3.6. 构建社区并生成社区摘要
 使用社区检测算法将图中相关的节点分组，然后使用大语言模型 (LLM) 为每个社区生成摘要。
 
-```
+```python
 index.property_graph_store.build_communities()
 ```
 
@@ -611,7 +611,7 @@ index.property_graph_store.build_communities()
     - 2.针对每个社区摘要，为查询生成特定的答案
     - 3.将所有社区特定的答案聚合成一个最终的、连贯的响应
 
-```
+```python
 from llama_index.core.query_engine import CustomQueryEngine
 from llama_index.core.llms import LLM
 from llama_index.core import PropertyGraphIndex
@@ -721,7 +721,7 @@ class GraphRAGQueryEngine(CustomQueryEngine):
 
 
 #### 3.7.2. 实例化GraphRAGQueryEngine为query_engine对象
-```
+```python
 query_engine = GraphRAGQueryEngine(
     graph_store=index.property_graph_store, 
     llm=llm,
@@ -730,7 +730,7 @@ query_engine = GraphRAGQueryEngine(
 )
 ```
 #### 3.7.3. 检索信息
-```
+```python
 response = query_engine.query(
     "What are the main news discussed in the document?"
 )
