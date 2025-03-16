@@ -58,7 +58,7 @@ tag:
 - 社区论坛
 
 ## 3. Models
-模型列表页
+### 3.1. 模型列表页
 - 涵盖了各种任务，可根据任务选择模型，也可以直接搜索模型名称
     - Multimodal 多模态
     - Computer Vision 计算机视觉
@@ -70,7 +70,7 @@ tag:
 
 ![](../../../assets/018_huggingface_models.png)
 
-模型详情页
+### 3.2. 模型详情页
 - Model card: 模型介绍
 - File and versions: 模型文件
 - Use this model: 使用该模型的样例代码，一般都提供pipeline的方式
@@ -79,6 +79,26 @@ tag:
 - Spaces using model: 使用该模型的Space
 
 ![](../../../assets/018_huggingface_model_detail.png)
+
+### 3.3. 模型文件
+
+![](../../../assets/018_model_files.png)
+
+- 文档/元数据：提供使用指南、许可和版本控制
+    - README.md：模型的说明文档，通常包含模型的介绍、使用方法、训练细节、性能评测等信息
+    - LICENSE：开源许可协议，规定了该模型的使用、分发和修改权限
+    - .gitattributes：用于 Git 版本控制，尤其是 Git LFS（Large File Storage），通常包含对大文件的 LFS 追踪规则
+- 模型配置文件：定义模型架构和推理参数
+    - config.json：模型的主要配置文件，定义了模型架构（如层数、隐藏单元数、注意力头数等）
+    - generation_config.json：生成文本时的默认参数配置文件，如最大长度、温度、top-k 采样等，用于控制推理阶段的文本生成方式
+- 模型权重文件：存储神经网络参数
+    - safetensors文件：模型的主要权重文件，采用 safetensors 格式（比传统的 .bin 更安全、加载更快），通过 Git LFS 存储
+        - model-00001-of-000002.safetensors
+        - model-00002-of-000002.safetensors
+    - model.safetensors.index.json：索引文件，描述了模型权重在不同 .safetensors 文件中的存储位置，允许分片加载模型
+- 分词器：用于文本预处理和后处理
+    - tokenizer.json：分词器的核心文件，包含所有 token 及其对应的 ID，用于文本编码和解码
+    - tokenizer_config.json：定义分词器的相关参数，如是否使用特殊 token，是否是 BPE/WordPiece 分词器等
 
 ## 4. Datasets
 数据集列表页

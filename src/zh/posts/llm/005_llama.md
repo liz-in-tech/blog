@@ -122,8 +122,13 @@ llama推理代码细节
 ## 7. 源码
 ### 7.1. 入口
 ```python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+
+# model_id 可以是已下载好的模型的本地路径，也可以是huggingface.co的"{username}/{repository}"
 # 从model_id路径下载词表tokenizer.json,实例化tokenizer类
 tokenizer = AutoTokenizer.from_pretrained(model_id)
+
 """
 主要分为2步：
 1）从model_id路径下载配置config.json,实例化LlamaConfig类

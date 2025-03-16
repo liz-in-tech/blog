@@ -58,7 +58,7 @@ Introduction: Hugging Face is an open-source platform focused on natural languag
 - Community Forum
 
 ## 3. Models
-Model list page
+### 3.1. Model list page
 - Covers various tasks, allowing selection of models based on tasks or direct search by model name
     - Multimodal
     - Computer Vision
@@ -70,7 +70,7 @@ Model list page
 
 ![](../../assets/018_huggingface_models.png)
 
-Model detail page
+### 3.2. Model detail page
 - Model card: Model introduction
 - File and versions: Model files
 - Use this model: Sample code for using the model, usually providing a pipeline method
@@ -79,6 +79,26 @@ Model detail page
 - Spaces using model: Spaces using the model
 
 ![](../../assets/018_huggingface_model_detail.png)
+
+### 3.3. Model Files
+
+![](../../assets/018_model_files.png)
+
+- Documentation/Metadata: Provides usage guidelines, licensing, and version control
+    - README.md: The model’s documentation, usually containing an introduction, usage instructions, training details, and performance evaluation
+    - LICENSE: The open-source license agreement, specifying the model’s usage, distribution, and modification permissions
+    - .gitattributes: Used for Git version control, especially for Git LFS (Large File Storage), typically containing tracking rules for large files
+- Model Configuration Files: Define model architecture and inference parameters
+    - config.json: The model’s primary configuration file, specifying architecture details such as the number of layers, hidden units, and attention heads
+    - generation_config.json: The default parameter configuration file for text generation, including settings such as maximum length, temperature, and top-k sampling, which control the inference process
+- Model Weight Files: Store the neural network parameters
+    - safetensors files: The model’s main weight files, stored in the safetensors format (safer and faster to load than traditional .bin), managed via Git LFS
+        - model-00001-of-000002.safetensors
+        - model-00002-of-000002.safetensors
+    - model.safetensors.index.json: The index file, mapping model weights across different .safetensors files, enabling sharded model loading
+- Tokenizer: Used for text preprocessing and postprocessing
+    - tokenizer.json: The core tokenizer file, containing all tokens and their corresponding IDs for text encoding and decoding
+    - tokenizer_config.json: Defines tokenizer-related parameters, such as the use of special tokens and whether it follows BPE/WordPiece tokenization
 
 ## 4. Datasets
 Dataset list page

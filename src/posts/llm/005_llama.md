@@ -113,8 +113,13 @@ Training Workflow:
 ## 7. Source Code
 ### 7.1. Entrance
 ```python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+
+# The model_id can be the local path of a previously downloaded model or a "{username}/{repository}" from huggingface.co
 # Download the vocabulary file tokenizer.json from the model_id path and instantiate the tokenizer class
 tokenizer = AutoTokenizer.from_pretrained(model_id)
+
 """
 The main steps are divided into two parts:
 1.Download the configuration file config.json from the model_id path and instantiate the LlamaConfig class
