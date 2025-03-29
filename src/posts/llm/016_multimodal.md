@@ -128,8 +128,6 @@ Stable Diffusion is a system composed of multiple components and models, rather 
 
 ![](../../assets/016_sd9.png)
 
-![](../../assets/016_sd10.png)
-
 Three main components of the diffusion model (each with its own neural network):
 - Clip Text (blue)
   - For text encoding

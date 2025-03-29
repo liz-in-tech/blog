@@ -32,7 +32,7 @@ tag:
 
 多模态系统（Multimodal System）: 能够处理多种模态输入和输出的系统
 
-多模态大模型（Multimodal Large Language Models, MLLMs）: 将额外的模态融入大预言模型（LLMs）, 也就是将大语言模型扩展到多种数据类型。
+多模态大模型（Multimodal Large Language Models, MLLMs）: 将额外的模态融入大语言模型（LLMs）, 也就是将大语言模型扩展到多种数据类型。
 
 多模态大模型用于解决：模态之间的转换
 - 文本->图像
@@ -127,8 +127,6 @@ Stable Diffusion是一个由多个组件和模型组成的系统，而非单一�
 ![](../../../assets/016_sd8.png)
 
 ![](../../../assets/016_sd9.png)
-
-![](../../../assets/016_sd10.png)
 
 扩散模型的3个主要组件（每个都有各自的神经网络）
 - Clip Text （蓝色）
@@ -279,7 +277,7 @@ Sora本质上是一个具备灵活采样维度的diffusion transformer模型。�
 - 多模态大模型的基础是文本大模型
   - 文本大模型的上限决定了其他大模型的上限
   - 文本大模型会促进其它模态的发展
-  - 其他模态会之后文本大模型的发展
+  - 其他模态会滞后文本大模型的发展
 
 24年机会
 - Agent

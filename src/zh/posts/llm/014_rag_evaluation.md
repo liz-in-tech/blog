@@ -19,6 +19,8 @@ tag:
 评估框架
 - ragas 
   - https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/
+- DeepEval
+  - https://github.com/confident-ai/deepeval
 - RAGChecker
 
 Ragas: RAG可以通过四个指标来评估。其中两个指标偏向于LLM，另外两个偏向于上下文。
@@ -125,7 +127,7 @@ ROUGE在文本摘要、文档生成、问答系统等任务中表现优异，尤
   - latency of online pipeline 在线流水线的延迟
   - cost of offline pipeline 离线流水线的成本
 
-### 2.4. BLUE
+### 2.4. BLEU
 BLEU是机器翻译领域中应用最广泛的评估标准之一。与ROUGE不同，BLEU主要关注生成文本和参考文本之间的n-gram精确匹配。BLEU通过计算生成句子中n-gram和参考句子中n-gram匹配的比例，反映生成内容的准确性。
 
 BLEU的得分主要基于以下内容：
@@ -186,8 +188,8 @@ F1 = 2 * relevance * recall / (relevance + recall)
   - 模型置顶的搜索结果是否满足问题的需求？
   - 上下文召回率显示是否需要优化搜索，可能需要增加重排 (Reranking)、微调嵌入(Fine-tune Embeddings)，或者需要使用不同的嵌入 (Embeddings) 来提取更相关的内容。
 
-OpenAI Cookbook中提及的
-https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
+OpenAI Cookbook中提及的:
+- https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
 
 命中率计算的是在前 k 个检索文档中找到正确答案的查询比例。
 
@@ -216,6 +218,9 @@ position5 (doc5): 3/5    (找到3个相关/已返回5个)
 MAP@5就是上面分数的平均
 
 #### 3.3.2. MAP 均值平均精度（多个查询的平均值）
+2步计算MAP
+- 1.计算"平均精度"：计算每个位置的精度的平均值
+- 2.计算多个查询的"平均精度"的平均值
 
 ![](../../../assets/014_map_formula.png)
 
@@ -232,8 +237,12 @@ MAP@5就是上面分数的平均
 则平均正确率均值为:(0.83+0.45)/2=0.64
 
 ### 3.4. Mean Reciprocal Rank (MRR) 平均倒数排名
-OpenAI Cookbook中提及的
-https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
+2步计算MRR
+- 1.计算"倒数排名"：计算第一个相关文档的位置排名的倒数
+- 2.计算多个查询的"倒数排名"的平均值
+
+OpenAI Cookbook中提及的:
+- https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
 
 $$
 MRR = \frac{1}{Q} \sum_{q=1}^Q\frac{1}{rank_q}

@@ -19,6 +19,8 @@ tag:
 Evaluation Framework
 - ragas 
   - https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/
+- DeepEval
+  - https://github.com/confident-ai/deepeval
 - RAGChecker
 
 Ragas: RAG can be evaluated using 4 metrics. Two of the metrics are inclined towards LLMs and two towards context.
@@ -169,7 +171,8 @@ F1 = 2 * precision * recall / (precision + recall)
   - Does the search which is put at the top by the model is answering the question?
   - context recalls tell if the search needs to be optimized, may need to add reranking, fine-tune embeddings, or may be different embeddings are needed to surface more relevant content.
 
-OpenAI Cookbook:https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
+OpenAI Cookbook:
+- https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
 
 Hit rate calculates the fraction of queries where the correct answer is found within the top-k retrieved documents.
 
@@ -200,6 +203,9 @@ position5 (doc5): 3/5    (3 relevant found / 5 returned)
 MAP@5 is the average of the scores above.
 
 #### 3.3.2. MAP 
+2-Step Calculation of MAP  
+1. Compute **"Average Precision"**：Mean of precision at each relevant position.  
+2. Compute the mean of **"Average Precision"** across multiple queries.  
 
 ![](../../assets/014_map_formula.png)
 
@@ -218,7 +224,12 @@ For Query 2, the Average Precision (AP) is calculated as:  (1/1+2/3+3/5)/5=0.45
 Therefore, the Mean Average Precision (MAP) is: (0.83+0.45)/2=0.64
 
 ### 3.4. Mean Reciprocal Rank (MRR) 
-OpenAI Cookbook: https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
+2-Step Calculation of MRR  
+1. Compute **"Reciprocal Rank"**: Inverse of the rank of the first relevant document.  
+2. Compute the mean of **"Reciprocal Rank"** across multiple queries.  
+
+OpenAI Cookbook: 
+- https://github.com/openai/openai-cookbook/blob/main/examples/evaluation/Evaluate_RAG_with_LlamaIndex.ipynb
 
 $$
 MRR = \frac{1}{Q} \sum_{q=1}^Q\frac{1}{rank_q}
