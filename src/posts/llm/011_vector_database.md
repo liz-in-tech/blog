@@ -165,13 +165,17 @@ The main goal of vector databases is to provide a fast and efficient way to stor
 Data is stored in vector databases through indexing, which refers to creating data structures called indexes for efficient vector lookup by rapidly narrowing the search space.
 
 As with most cases, choosing a vector index involves a trade-off between precision (accuracy/recall) and speed/throughput.
-- BM25
-- IVF (Inverted File)
-- HNSW (Hierarchical Navigable Small World)
-- PQ (Product Quantization)
-- Flat
-- RHNSW
-- Vamana (used in the DiskANN implementation)
+
+- Keyword Search / Sparse Search
+  - BM25 = IDF (Inverse Document Frequency)
+  - IVF (Inverted File) – Widely used in search engines
+- Vector Search / Dense Search
+  - Flat = KNN (K-Nearest Neighbors) = Brute-force search = Computes similarity with every vector
+  - Approximate KNN = Divides the space into multiple clusters, first finds the distance to each centroid, then searches within the space of the closest centroid
+  - ANN (Approximate Nearest Neighbor)
+  - NSW (Navigable Small World)
+  - HNSW (Hierarchical Navigable Small World)
+  - PQ (Product Quantization)
 
 ![Indexing algorithms used by various vector databases](../../assets/011_vector_database_index.png)
 
@@ -359,7 +363,6 @@ By sacrificing some accuracy (not always returning the true nearest neighbors), 
 - Construction Complexity: O(n log n)
 
 ![](../../assets/011_hnsw_construction.png)
-![](../../assets/011_hnsw_runtime_complexity.png)
 
 ### 12.2. Querying
 - Query Process:
