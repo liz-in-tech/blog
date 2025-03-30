@@ -113,7 +113,7 @@ During training, memory usage is continuously changing rather than static.
 
 ![](../../assets/024_memory_profile.png)
 
-Memory Optimization Suggestions:
+## 5. Memory Optimization Suggestions
 - Activation Recomputation: Reduce memory usage of activations by storing only part of them and recomputing when needed to save memory
 - Gradient Accumulation: Accumulate gradients from multiple small batches before updating parameters to reduce memory usage
 - Mixed Precision Training: Reduce memory usage of parameters and gradients by using half-precision floating-point numbers (float16) instead of single-precision (float32)
@@ -123,95 +123,6 @@ Memory Optimization Suggestions:
 
 Extension Link:
 https://zdevito.github.io/2022/08/04/cuda-caching-allocator.html
-
-## 5. Mixed Precision Training
-### 5.1. Numerical Range and Precision of Floating-Point Numbers
-Default numerical precision of PyTorch tensors: single-precision floating-point format, also known as FP32 or float32
-- This means each stored number occupies 32 bits (i.e., 4 bytes)
-
-The available bits are divided into three parts to represent a number (scientific notation):
-- Sign Bit: The first bit determines whether the number is positive or negative
-- Exponent: Controls the range of the number
-- Mantissa: Determines the significant digits of the number
-
-![](../../assets/024_float_point.png)
-
-List of floating-point formats provided by PyTorch:
-- FP32 / float32 / 32-bit Floating Point
-- FP16 / float16 / 16-bit Floating Point
-- BF16 / bfloat16 / 16-bit Brain Floating Point
-- FP8 / float8 / 8-bit Floating Point
-
-![](../../assets/024_float_point_list.png)
-
-Note:
-- bfloat16 was proposed by Google Brain, where 'b' stands for "brain"
-- Two types of float8 are named based on exponent and mantissa (e4m3 and e5m2)
-
-We focus on two aspects of floating-point numbers: precision and numerical range
-- Precision: The fineness of the numbers that can be represented (i.e., the gap between two adjacent representable numbers)
-- Numerical Range: The maximum and minimum values that can be represented
-
-Numerical range of different floating-point numbers:
-
-![](../../assets/024_float_point_list.png)
-
-From the chart (look at the width, the wider the range, the larger the numerical range):
-- float32 and bfloat16 have the same and relatively large numerical range
-- float16 and float8_e5m2 have the same numerical range, which is relatively small
-- float8_e4m3 has the smallest numerical range
-
-Precision of different floating-point numbers:
-![](../../assets/024_float_point_precision.png)
-
-From the chart (look at the spacing of the vertical lines, the smaller the spacing, the greater the precision):
-- bfloat16 has lower precision than float32 and float16
-
-### 5.2. Concept of Mixed Precision Training
-The concept of mixed precision training is to use lower precision formats to reduce computational and memory requirements while maintaining performance comparable to full precision (float32) training.
-
-However, completely abandoning float32 is impractical because certain critical parts require higher precision to avoid numerical instability. Therefore, in practice, a mix of high and low precision formats is often used, a method known as "mixed precision training."
-
-### 5.3. Summary of Known Methods for Mixed Precision Training
-![](../../assets/024_mixed_precision_training_list.png)
-
-Number of Parameters: Ψ
-
-- BF16+FP32 Mixed Precision Baseline: 2Ψ + 6Ψ + 12Ψ = 20Ψ
-    - Model Parameters (half precision): 2 bytes
-    - Gradients (half precision) + FP32 gradients (accumulated in FP32 precision): 2 + 4 = 6 bytes
-    - FP32 Model Parameters and Optimizer States: 4 + (4 + 4) = 12 bytes
-- BF16+FP32 Mixed Precision without FP32 Gradients: 2Ψ + 2Ψ + 12Ψ = 16Ψ
-    - Model Parameters (half precision): 2 bytes
-    - Gradients (half precision): 2 bytes
-    - FP32 Model Parameters and Optimizer States: 4 + (4 + 4) = 12 bytes
-
-### 5.4. FP16 and BF16 Training
-Simply switching all tensors and operations to float16 format usually doesn't work, often resulting in divergent loss values. However, the initial mixed precision training paper proposed three techniques to maintain the performance of float32 training:
-
-- FP32 Copy of Weights:
-    - Using float16 weights can encounter two issues. During training, some weights may become very small and be rounded to 0. Even if the weights themselves are not close to 0, the magnitude difference may cause weights to underflow in addition operations if the update amount is very small. Once weights become 0, they will remain 0 in subsequent training because no gradient signal is passed.
-- Loss Scaling:
-    - Gradients face similar issues because they are often much smaller than 1 and prone to underflow. A simple but effective strategy is to scale (amplify) the loss before backpropagation and then reverse scale (reduce) the gradients after backpropagation. This ensures no underflow occurs during backpropagation, and the scaling operation doesn't affect training because we reverse scale before further processing gradients (e.g., clipping) and optimization steps.
-- Accumulation:
-    - Performing certain arithmetic operations (e.g., averaging or summing) in 16-bit precision may also encounter underflow or overflow issues. The solution is to use float32 precision to accumulate intermediate results during operations and only convert the result back to 16-bit precision at the end.
-
-The core goal of these three techniques is to leverage the computational acceleration brought by low precision while ensuring training stability by introducing high precision (e.g., float32) operations to avoid numerical instability issues (e.g., gradient or weight underflow). Through these techniques, we can benefit from faster low precision arithmetic operations while maintaining training stability, resulting in higher throughput.
-
-### 5.5. FP8 Training
-- FP8 precision and numerical range are very limited, prone to numerical instability and divergent loss, especially in high learning rate scenarios.
-- The main advantage of FP8 is its ability to significantly enhance computational efficiency (e.g., on NVIDIA H100 GPUs, FP8 matrix multiplication performance is twice that of bfloat16), making it attractive for training that seeks high throughput and low energy consumption.
-
-![Divergent Loss](../../assets/024_divergent_loss.png)
-
-#### 5.5.1. FP8 Mixed Precision Training in DeepSeek-V3
-- The first successful, very large-scale FP8 mixed precision training was publicly reported in DeepSeek-V3.
-- The authors carefully analyzed each operation in the forward pass (Fprop) and activations (Dgrad) and weights (Wgrad) operations in the backward pass.
-- To address numerical instability caused by FP8's low precision, they adopted strategies similar to BF16 mixed precision training: keeping critical parts (e.g., aggregation operations and main weights) at higher precision (possibly float32 or bfloat16) while delegating compute-intensive operations (e.g., matrix multiplication) to FP8, thus ensuring stability while fully leveraging FP8's high-performance advantages.
-
-![FP8 Mixed Precision Training Framework in DeepSeek-V3](../../assets/024_deepseek_v3_fp8.png)
-
-DeepSeek-V3 Paper: http://arxiv.org/pdf/2412.19437
 
 ## 6. Activation Recomputation / Gradient Checkpointing / Rematerialization
 Trading time for space, computation for memory: discard some activations computed during the forward pass to save memory and spend extra computation during the backward pass to dynamically recompute activations.
@@ -276,8 +187,97 @@ Advantages and Disadvantages of Gradient Accumulation:
 - Disadvantages:
     - Requires computation of multiple forward and backward passes, increasing computational cost
 
-## 8. Tools
-## 8.1. Memory Usage Calculation Tool: Predict Memory
+## 8. Mixed Precision Training
+### 8.1. Numerical Range and Precision of Floating-Point Numbers
+Default numerical precision of PyTorch tensors: single-precision floating-point format, also known as FP32 or float32
+- This means each stored number occupies 32 bits (i.e., 4 bytes)
+
+The available bits are divided into three parts to represent a number (scientific notation):
+- Sign Bit: The first bit determines whether the number is positive or negative
+- Exponent: Controls the range of the number
+- Mantissa: Determines the significant digits of the number
+
+![](../../assets/024_float_point.png)
+
+List of floating-point formats provided by PyTorch:
+- FP32 / float32 / 32-bit Floating Point
+- FP16 / float16 / 16-bit Floating Point
+- BF16 / bfloat16 / 16-bit Brain Floating Point
+- FP8 / float8 / 8-bit Floating Point
+
+![](../../assets/024_float_point_list.png)
+
+Note:
+- bfloat16 was proposed by Google Brain, where 'b' stands for "brain"
+- Two types of float8 are named based on exponent and mantissa (e4m3 and e5m2)
+
+We focus on two aspects of floating-point numbers: precision and numerical range
+- Precision: The fineness of the numbers that can be represented (i.e., the gap between two adjacent representable numbers)
+- Numerical Range: The maximum and minimum values that can be represented
+
+Numerical range of different floating-point numbers:
+
+![](../../assets/024_float_point_list.png)
+
+From the chart (look at the width, the wider the range, the larger the numerical range):
+- float32 and bfloat16 have the same and relatively large numerical range
+- float16 and float8_e5m2 have the same numerical range, which is relatively small
+- float8_e4m3 has the smallest numerical range
+
+Precision of different floating-point numbers:
+![](../../assets/024_float_point_precision.png)
+
+From the chart (look at the spacing of the vertical lines, the smaller the spacing, the greater the precision):
+- bfloat16 has lower precision than float32 and float16
+
+### 8.2. Concept of Mixed Precision Training
+The concept of mixed precision training is to use lower precision formats to reduce computational and memory requirements while maintaining performance comparable to full precision (float32) training.
+
+However, completely abandoning float32 is impractical because certain critical parts require higher precision to avoid numerical instability. Therefore, in practice, a mix of high and low precision formats is often used, a method known as "mixed precision training."
+
+### 8.3. Summary of Known Methods for Mixed Precision Training
+![](../../assets/024_mixed_precision_training_list.png)
+
+Number of Parameters: Ψ
+
+- BF16+FP32 Mixed Precision Baseline: 2Ψ + 6Ψ + 12Ψ = 20Ψ
+    - Model Parameters (half precision): 2 bytes
+    - Gradients (half precision) + FP32 gradients (accumulated in FP32 precision): 2 + 4 = 6 bytes
+    - FP32 Model Parameters and Optimizer States: 4 + (4 + 4) = 12 bytes
+- BF16+FP32 Mixed Precision without FP32 Gradients: 2Ψ + 2Ψ + 12Ψ = 16Ψ
+    - Model Parameters (half precision): 2 bytes
+    - Gradients (half precision): 2 bytes
+    - FP32 Model Parameters and Optimizer States: 4 + (4 + 4) = 12 bytes
+
+### 8.4. FP16 and BF16 Training
+Simply switching all tensors and operations to float16 format usually doesn't work, often resulting in divergent loss values. However, the initial mixed precision training paper proposed three techniques to maintain the performance of float32 training:
+
+- FP32 Copy of Weights:
+    - Using float16 weights can encounter two issues. During training, some weights may become very small and be rounded to 0. Even if the weights themselves are not close to 0, the magnitude difference may cause weights to underflow in addition operations if the update amount is very small. Once weights become 0, they will remain 0 in subsequent training because no gradient signal is passed.
+- Loss Scaling:
+    - Gradients face similar issues because they are often much smaller than 1 and prone to underflow. A simple but effective strategy is to scale (amplify) the loss before backpropagation and then reverse scale (reduce) the gradients after backpropagation. This ensures no underflow occurs during backpropagation, and the scaling operation doesn't affect training because we reverse scale before further processing gradients (e.g., clipping) and optimization steps.
+- Accumulation:
+    - Performing certain arithmetic operations (e.g., averaging or summing) in 16-bit precision may also encounter underflow or overflow issues. The solution is to use float32 precision to accumulate intermediate results during operations and only convert the result back to 16-bit precision at the end.
+
+The core goal of these three techniques is to leverage the computational acceleration brought by low precision while ensuring training stability by introducing high precision (e.g., float32) operations to avoid numerical instability issues (e.g., gradient or weight underflow). Through these techniques, we can benefit from faster low precision arithmetic operations while maintaining training stability, resulting in higher throughput.
+
+### 8.5. FP8 Training
+- FP8 precision and numerical range are very limited, prone to numerical instability and divergent loss, especially in high learning rate scenarios.
+- The main advantage of FP8 is its ability to significantly enhance computational efficiency (e.g., on NVIDIA H100 GPUs, FP8 matrix multiplication performance is twice that of bfloat16), making it attractive for training that seeks high throughput and low energy consumption.
+
+![Divergent Loss](../../assets/024_divergent_loss.png)
+
+#### 8.5.1. FP8 Mixed Precision Training in DeepSeek-V3
+- The first successful, very large-scale FP8 mixed precision training was publicly reported in DeepSeek-V3.
+- The authors carefully analyzed each operation in the forward pass (Fprop) and activations (Dgrad) and weights (Wgrad) operations in the backward pass.
+- To address numerical instability caused by FP8's low precision, they adopted strategies similar to BF16 mixed precision training: keeping critical parts (e.g., aggregation operations and main weights) at higher precision (possibly float32 or bfloat16) while delegating compute-intensive operations (e.g., matrix multiplication) to FP8, thus ensuring stability while fully leveraging FP8's high-performance advantages.
+
+![FP8 Mixed Precision Training Framework in DeepSeek-V3](../../assets/024_deepseek_v3_fp8.png)
+
+DeepSeek-V3 Paper: http://arxiv.org/pdf/2412.19437
+
+## 9. Tools
+## 9.1. Memory Usage Calculation Tool: Predict Memory
 Before diving into code and experiments, we want to understand how each method works at a high level and what its advantages and limits are. You'll learn about which parts of a language model eat away your memory and when during training it happens. You'll learn how we can solve memory constraints by parallelizing the models and increase the throughput by scaling up GPUs. As a result, you'll understand how the following widget to compute the memory breakdown of a transformer model works.
 
 ![Memory Usage Widget](../../assets/024_memory_usage_widget.png)
@@ -286,7 +286,7 @@ Memory Usage Prediction Tool: https://huggingface.co/spaces/nanotron/predict_mem
 
 ![Memory Timeline](../../assets/024_memory_timeline.png)
 
-## 8.2. Distributed Training Tool for Visualizing GPU Compute and Communication Costs: Profiler
+## 9.2. Distributed Training Tool for Visualizing GPU Compute and Communication Costs: Profiler
 Purpose: Understand and verify GPU compute and communication costs, identify bottlenecks
 
 [PyTorch's profiler](https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html)
@@ -320,25 +320,25 @@ The trace helps identify bottlenecks, such as:
 - Memory movement between CPU and GPU
 - Kernel launch overhead on the CPU
 
-## 9. Reference: Ultrascale Playbook
+## 10. Reference: Ultrascale Playbook
 
 [https://huggingface.co/spaces/nanotron/ultrascale-playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)
 
-### 9.1. Overview
+### 10.1. Overview
 ![](../../assets/024_preview.png)
 
 ![](../../assets/024_preview1.png)
 
 ![](../../assets/024_preview2.png)
 
-### 9.2. Prerequisite Knowledge
+### 10.2. Prerequisite Knowledge
 - Mainstream LLM Architectures
 - Basics of Model Training: How Deep Learning Models are Trained
     - Recommended Quality Educational Resources
         - https://www.deeplearning.ai/
         - https://pytorch.org/tutorials/beginner/basics/intro.html
 
-### 9.3. Scaling Experiments
+### 10.3. Scaling Experiments
 We ran over 4000 scaling experiments on up to 512 GPUs and measured throughput (size of markers) and GPU utilization (color of markers). Note that both are normalized per model size in this visualization.
 
 We ran over 4100 distributed experiments (over 16k including test runs) with up to 512 GPUs to scan many possible distributed training layouts and model sizes.
