@@ -117,22 +117,6 @@ Fine-tuning process—split data into training, validation, and test sets:
           - **Advantages**: Reduces complexity and resource demand, still improves performance for specific tasks.
           - **Disadvantages**: Limited fine-tuning depth, may not fully meet task needs.
 
-#### 4.1.1. GPU Memory & Computation
-
-For a **7B** model:
-- 7 billion parameters * 4 bytes per parameter = total size in GB, denoted as 'a GB'
-
-For **Full Fine-tuning** (requires 5a GB):
-- Model itself * 1
-- Gradient * 1
-- Optimizer States * 2
-- Variables * 1
-
-For **LoRA** (slightly larger than 'a GB', as it fine-tunes less than 1% of the parameters):
-- Model itself * 1
-- Gradient * 1 * 1% 
-- Optimizer States * 2 * 1%
-
 ### 4.2. Based on Task: SFT, RLHF, RLAIF
 - **Supervised Fine-tuning (SFT)**: Supervised fine-tuning; 
 - **Reinforcement Learning from Human Feedback (RLHF)**: Fine-tuning using human feedback through reinforcement learning; 

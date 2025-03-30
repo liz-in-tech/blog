@@ -117,26 +117,6 @@ Fine-tune过程--划分训练集、验证集和测试集
           - 优：减少了微调的复杂性和资源需求，同时仍然能够提升模型在特定任务上的表现
           - 缺：微调深度有限，可能无法充分适应任务需求
 
-#### 4.1.1. GPU 显存 计算
-
-7B 
-- 70亿 * 4 byte
-  - 70亿参数
-  - 每个参数 4 byte
-  - 计算出总共多少GB，记为 a GB
-
-全量微调 （需要5a GB）
-- 模型本身 *1
-- Gradient *1 
-- Optimizer States * 2
-- 变量 *1
-
-LoRA (略比aGB大，训练的参数都不到原参数量的1%)  
-
-Trainable: 20971520 | total: 7262703616 | Percentage: 0.2888%
-- 模型本身 *1
-- Gradient *1 * 1% 
-- Optimizer States * 2 * 1%
 ### 4.2. 基于任务：SFT，RLHF，RLAIF
 - 监督式微调SFT( Supervised Fine Tuning); 
 - 基于人类反馈的强化学习微调RLHF(把人类的反馈通过强化学习的方式，引入到大模型的微调中)； 
