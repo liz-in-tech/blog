@@ -54,11 +54,11 @@ Key Points:
         - Inference: Uses pre-trained parameters for generation without gradient calculations
 
 Inference Process (Autoregressive):
-1. Tokenize prompt into token sequence
-2. Embed tokens into hidden_size dimension tensors
-3. Process through 32 decoder layers
-4. Map final hidden states to vocabulary probabilities
-5. Append highest probability token and repeat
+- 1. Tokenize prompt into token sequence
+- 2. Embed tokens into hidden_size dimension tensors
+- 3. Process through 32 decoder layers
+- 4. Map final hidden states to vocabulary probabilities
+- 5. Append highest probability token and repeat
 
 Code Details:
 - 1. Tokenization
@@ -105,7 +105,9 @@ Training Workflow:
 ## 5. Tensor Dimensionality Transformation
 ![Tensor Dimension Transformation](../../assets/005_llama_dim_trans.png)
 
-![Tensor Dimension Transformation Details](../../assets/005_llama_for_causal_lm.png)
+![Tensor Dimension Transformation Details Version1](../../assets/005_llama_gege.png)
+
+![Tensor Dimension Transformation Details Version2](../../assets/005_llama_for_causal_lm.png)
 
 ## 6. Number of Trainable Parameters
 ![Number of Trainable Parameters](../../assets/005_llama_trainable_parameters.png)

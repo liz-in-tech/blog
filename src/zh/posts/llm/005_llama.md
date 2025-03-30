@@ -54,11 +54,11 @@ https://github.com/huggingface/transformers/blob/main/src/transformers/models/ll
         - 推理时：推理的目的是基于已经训练好的模型进行推断和生成，因此不需要计算梯度，也不需要更新模型参数。推理过程仅依赖于已训练好的参数来生成结果。
 
 推理过程：自回归执行，每次输入是prompt再加上上一次自回归的预测token组成的token序列，每次输出是输入token序列后多预测了一位token的概率分布（假设都取最大概率的那个token）
-1.将prompt进行token化，转为token序列
-2.将token序列进行embedding，将每个token转为一个hidden_size大小的tensor
-3.将embed后的token序列作为输入，传入llama解码层，经过32层的前向传播，输出hidden_state
-4.把hidden_state映射到token词表，得到每个token作为下一个预测的token的概率分布
-5.然后把最大概率的token补到prompt后面继续进行自回归
+- 1.将prompt进行token化，转为token序列
+- 2.将token序列进行embedding，将每个token转为一个hidden_size大小的tensor
+- 3.将embed后的token序列作为输入，传入llama解码层，经过32层的前向传播，输出hidden_state
+- 4.把hidden_state映射到token词表，得到每个token作为下一个预测的token的概率分布
+- 5.然后把最大概率的token补到prompt后面继续进行自回归
 
 
 llama推理代码细节
@@ -114,7 +114,9 @@ llama推理代码细节
 ## 5. 张量维度转换
 ![张量维度转换](../../../assets/005_llama_dim_trans.png)
 
-![张量维度转换细节](../../../assets/005_llama_for_causal_lm.png)
+![张量维度转换细节版本1](../../../assets/005_llama_gege.png)
+
+![张量维度转换细节版本2](../../../assets/005_llama_for_causal_lm.png)
 
 ## 6. 可训练参数量
 ![可训练参数量](../../../assets/005_llama_trainable_parameters.png)
