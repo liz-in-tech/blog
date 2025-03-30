@@ -46,7 +46,7 @@ The application scenarios of GRPO are not limited to code or mathematics. Its re
 #### 1.3.1. The "Double Teacher Dilemma" of PPO
 In traditional reinforcement learning methods, PPO (Proximal Policy Optimization) is widely used, where the training system requires two "teachers" to work together: the policy model (student) is responsible for generating answers, and the value model (scoring teacher) is responsible for evaluating quality. This architecture has three fundamental flaws:
 - Resource consumption black hole: The parameter size of the value model is often comparable to the policy model, requiring additional storage of gradient parameters during training, doubling memory usage.
-- Evaluation standard drift: Asynchronous updates of the two models can easily lead to inconsistent "teaching standards."
+- Evaluation standard divergence: Asynchronous updates of the two models can easily lead to inconsistent "teaching standards."
 - Absolute scoring trap: The absolute score of a single output is difficult to reflect the relative merits of answers.
 These problems are particularly prominent in complex reasoning tasks. When dealing with multi-step mathematical proofs, traditional methods are like using the same ruler to measure answers of different dimensions, easily causing evaluation bias.
 
@@ -58,7 +58,7 @@ GRPO is a reinforcement learning method developed on the popular PPO (Proximal P
 ![](../../assets/029_grpo_vs_ppo.png)
 
 ### 1.4. Three Revolutionary Designs of GRPO
-#### 1.4.1. From Decisive Evaluation Mechanism to Relative Evaluation Mechanism
+#### 1.4.1. From Absolute Evaluation Mechanism to Relative Evaluation Mechanism
 This relative evaluation mechanism brings three major advantages:
 - Evaluation dimension normalization: Automatically eliminates the impact of differences in question difficulty.
 - Error compensation effect: Random fluctuations are naturally smoothed in group comparisons.
