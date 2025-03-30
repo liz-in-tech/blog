@@ -26,7 +26,7 @@ Data parallelism (DP)
 Different micro-batches are processed in parallel on different GPUs (only gradient computation on micro-batch, model parameters are updated once per global batch)
 - A copy of the model instance is replicated on each GPU
 - Multiple GPUs compute forward and backward passes of micro-batches in parallel, then compute gradients for each micro-batch
-- Gradients of micro-batches are accumulated (averaged) -> all-reduce
+- Perform an all-reduce operation on micro-batch gradients to compute the average
 - The optimizer updates model parameters using the average gradient
 
 ![](../../assets/026_dp.png)

@@ -202,7 +202,7 @@ Transformer两个主要的块：
 - 序列并行最关键的优势是减少的需要存储的最大激活值大小
     - TP Only：在多个点都需要存形状为(b, s, h)的激活值，激活值大小为 b * s * h
     - TP with SP：激活值形状转为(b, s, h/k) 或 (b, s/k, h)，最大激活值大小被减小为 b * s * h / k，其中k为并行数
-- 两者在前向传播和后向传播中的通信开销都一样
+- 两者在前向传播和反向传播中的通信开销都一样
     - TP Only：每个Transformer块有2个all-reduce操作
     - TP with SP：每个Transformer块有2个all-gather操作和2个reduce-scatter操作，但由于all-reduce = reduce-scatter + all-gather，所以相当于有2个all-reduce操作，和TP Only一致
 
@@ -276,7 +276,7 @@ TP with SP 的 MLP 部分情况：
 ![](../../../assets/027_causal_attention_mask.png)
 
 ### 5.2. Zig-Zag Ring Attention
-平衡计算的实现：不纯粹按顺序分配，二把前面的后面的token进行混合到一个GPU上
+平衡计算的实现：不纯粹按顺序分配，而是把前面的和后面的token进行混合到一个GPU上
 
 ![](../../../assets/027_zig_zag.png)
 
@@ -307,6 +307,8 @@ TP with SP 的 MLP 部分情况：
 - 一个简单的假设：t<sub>b</sub> = 2 * t<sub>f</sub>
 
 ### 6.3. 朴素PP
+Note：此处图中方块的数字编号代表层数，共16层，每4层被分在一个GPU上
+
 - 理想总耗时：t<sub>ideal</sub> = t<sub>f</sub> + t<sub>b</sub>
 - 闲置时间：t<sub>pipeline_bubble</sub> = (p - 1) * (t<sub>f</sub> + t<sub>b</sub>)，其中p为并行数
 - 闲置时间与理想时间的比例：r<sub>bubble</sub> = (p - 1) * (t<sub>f</sub> + t<sub>b</sub>) / (t<sub>f</sub> + t<sub>b</sub>) = p - 1
@@ -314,9 +316,8 @@ TP with SP 的 MLP 部分情况：
 ![](../../../assets/027_naive_pp.png)
 
 ### 6.4. all-forward-all-backward (AFAB) 方案 / forward then backword / F then B
-- 把批次再分为微批次，图中方块中的编号就是微批次
-- 每批次被划分为8个微批次，9-16编号是下一个批次的微批次
-- 假设模型有4层，每个GPU上放一层
+Note：此处图中方块的数字编号不代表层数了，而是代表微批次，每批次被划分为8个微批次（9-16编号是下一个批次的微批次），每个方格代表4层，4个GPU上同一微批次就有16层
+
 - AFAB是指等每个批次的所有微批次的前向传播都完成后，开启这个批次所有微批次的反向传播
 
 ![](../../../assets/027_pp_afab.png)
@@ -324,6 +325,8 @@ TP with SP 的 MLP 部分情况：
 存在的问题：要存所有激活值（只有等前向传播都完成了，且该微批次的反向传播完成后才能释放该微批次的激活值）
 ### 6.5. One-forward-one-backward (1F1B)  and LLama 3.1 schemes 方案
 #### 6.5.1. non-interleaved schedule 非交错调度 （默认是此）
+Note：此处图中方块的数字编号不代表层数了，而是代表微批次，每批次被划分为8个微批次（9-16编号是下一个批次的微批次），每个方格代表4层，4个GPU上同一微批次就有16层
+
 - 和AFAB相比，只要有一个微批次的前向传播完成了，就开启这个微批次的反向传播
 - 每个微批次和其他微批次不进行同步
 - 非交错式调度可分为三个阶段。第一阶段是热身阶段，处理器进行不同数量的前向计算。在接下来的阶段，处理器进行一次前向计算，然后是一次后向计算。最后一个阶段处理器完成后向计算。
@@ -338,7 +341,7 @@ Transformer两个主要的块：
 - MLP / Feedforward layers
 - MHA / Multi-Head Attention
 
-这里的每个块代表一个计算块，绿色块代表注意力块MHA的前向传播，青色块代表前馈神经网络MLP的前向传播，粉色块代表MHA的反向传播，紫色块代表MLP的反向传播，块上的数字表示微批次ID
+Note：这里图中的每个块代表一个计算块，绿色块代表注意力块MHA的前向传播，青色块代表前馈神经网络MLP的前向传播，粉色块代表MHA的反向传播，紫色块代表MLP的反向传播，块上的数字表示微批次ID，每批次被划分为8个微批次，每个方格代表4层，4个GPU上同一微批次就有16层
 
 ![](../../../assets/027_pp_interleaved_schedule.png)
 
@@ -351,7 +354,7 @@ MoE(Mixture-of-Experts)基础: https://huggingface.co/blog/moe
 Expert Parallelism (EP)：在专家维度上并行
 - 每个专家的FFN Layer是完全独立的
 - 比起TP更轻量级，因为不需要切分矩阵乘法，只需要路由hidden states到正确的专家
-- 一般毁于其他并行策略一起采用，如DP
+- 一般会与其他并行策略一起采用，如DP
 
 ![](../../../assets/027_ep1.png)
 

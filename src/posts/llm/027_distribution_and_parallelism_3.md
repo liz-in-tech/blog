@@ -308,6 +308,8 @@ Example: 16-layer model distributed across 4 GPUs
 - A simple assumption: t<sub>b</sub> = 2 * t<sub>f</sub>
 
 ### 6.3. Naive PP
+Note: The numbers in the squares in the diagram here represent the layer numbers, totaling 16 layers, with every 4 layers grouped on one GPU.
+
 - Ideal total time: t<sub>ideal</sub> = t<sub>f</sub> + t<sub>b</sub>
 - Idle time: t<sub>pipeline_bubble</sub> = (p - 1) * (t<sub>f</sub> + t<sub>b</sub>), where p is the parallelism degree
 - Ratio of idle time to ideal time: r<sub>bubble</sub> = (p - 1) * (t<sub>f</sub> + t<sub>b</sub>) / (t<sub>f</sub> + t<sub>b</sub>) = p - 1
@@ -315,9 +317,8 @@ Example: 16-layer model distributed across 4 GPUs
 ![](../../assets/027_naive_pp.png)
 
 ### 6.4. All-forward-all-backward (AFAB) Scheme / Forward then Backward / F then B
-- Divide the batch into micro-batches, with numbers in the blocks representing micro-batches
-- Each batch is divided into 8 micro-batches, numbers 9-16 are micro-batches of the next batch
-- Assume the model has 4 layers, with one layer on each GPU
+Note: The numbers in the squares in the diagram here no longer represent layer numbers but instead represent micro-batches. Each batch is divided into 8 micro-batches (numbers 9-16 are the micro-batches of the next batch). Each square represents 4 layers, and the same micro-batch across 4 GPUs covers 16 layers.
+
 - AFAB means starting the backward pass for all micro-batches of a batch only after all forward passes are completed
 
 ![](../../assets/027_pp_afab.png)
@@ -325,6 +326,8 @@ Example: 16-layer model distributed across 4 GPUs
 Problem: Need to store all activations (only after all forward passes are completed and the backward pass of a micro-batch is completed can the activations of that micro-batch be released)
 ### 6.5. One-forward-one-backward (1F1B) and LLama 3.1 Schemes
 #### 6.5.1. Non-interleaved Schedule (default)
+Note: The numbers in the squares in the diagram here no longer represent layer numbers but instead represent micro-batches. Each batch is divided into 8 micro-batches (numbers 9-16 are the micro-batches of the next batch). Each square represents 4 layers, and the same micro-batch across 4 GPUs covers 16 layers.
+
 - Compared to AFAB, start the backward pass of a micro-batch as soon as its forward pass is completed
 - Each micro-batch does not synchronize with other micro-batches
 - Non-interleaved scheduling can be divided into three phases. The first phase is the warm-up phase, where processors perform different amounts of forward computation. In the next phase, processors perform one forward computation followed by one backward computation. The final phase completes backward computation.
@@ -339,7 +342,7 @@ Two main blocks of Transformer:
 - MLP / Feedforward layers
 - MHA / Multi-Head Attention
 
-Here, each block represents a computation block, with green blocks representing forward propagation of attention blocks (MHA), cyan blocks representing forward propagation of feedforward networks (MLP), pink blocks representing backward propagation of MHA, and purple blocks representing backward propagation of MLP, with numbers on the blocks indicating micro-batch IDs
+Note: Here, each block in the diagram represents a computation block. Green blocks represent the forward pass of the attention block (MHA), cyan blocks represent the forward pass of the feed-forward neural network (MLP), pink blocks represent the backward pass of MHA, and purple blocks represent the backward pass of MLP. The numbers on the blocks indicate the micro-batch IDs. Each batch is divided into 8 micro-batches, and each square represents 4 layers. The same micro-batch across 4 GPUs covers 16 layers.
 
 ![](../../assets/027_pp_interleaved_schedule.png)
 
