@@ -11,8 +11,8 @@ tag:
 ---
 # RAG评估指标
   - 如何评估RAG
-  - Generation Evaluation
-  - Retrieval Evaluation
+  - 与LLM相关的指标 Generation Evaluation
+  - 与上下文相关的指标 Retrieval Evaluation
 <!-- more -->
 
 ## 1. 如何评估RAG

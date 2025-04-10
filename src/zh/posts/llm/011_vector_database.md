@@ -13,12 +13,12 @@ tag:
   - Index
 ---
 # 向量数据库与相似性搜索
-  - 1. 向量嵌入 Vector Embeddings
-  - 2. 向量之间相似度（距离）计算
-  - 3. 传统推荐系统模块
-  - 4. 向量数据库
-  - 5. 索引算法：KNN，ANN，NSW，HNSW，PQ
-  - 6. 稀疏搜索·密集搜索·混合搜索
+  - 向量嵌入 Vector Embeddings
+  - 向量之间相似度（距离）计算
+  - 传统推荐系统模块
+  - 向量数据库
+  - 索引算法：KNN，ANN，NSW，HNSW，PQ
+  - 稀疏搜索·密集搜索·混合搜索
 <!-- more -->
 
 ## 1. 向量嵌入 Vector Embeddings

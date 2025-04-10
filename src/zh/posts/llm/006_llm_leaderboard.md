@@ -11,8 +11,8 @@ tag:
   - LeaderBoard
 ---
 # LLM排行榜平台
-  - 1. LLM性能评估平台
-  - 2. LLM组织和模型 
+  - LLM性能评估平台
+  - LLM组织和模型 
 <!-- more -->
 
 ## 1. LLM性能评估平台

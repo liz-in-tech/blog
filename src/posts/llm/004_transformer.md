@@ -11,12 +11,10 @@ tag:
   - Source Code
 ---
 # Transformer Source Code Exploration
-  - 1. About
-  - 2. Transformer Overall Architecture
-  - 3. Hyperparameters
-  - 4. Tensor Dimensionality Transformation
-  - 5. Number of Trainable Parameters  
-  - 6. Source Code
+  - Transformer Overall Architecture
+  - Hyperparameters
+  - Tensor Dimensionality Transformation
+  - Number of Trainable Parameters  
 <!-- more -->
 
 ## 1. About

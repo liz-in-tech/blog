@@ -13,12 +13,12 @@ tag:
   - Index
 ---
 # Vector Databases and Similarity Search
-  - 1. Vector Embeddings
-  - 2. Similarity (Distance) Calculation Between Vectors
-  - 3. Traditional Recommendation System Modules
-  - 4. Vector Databases
-  - 5. Indexing Algorithms: KNN, ANN, NSW, HNSW, PQ
-  - 6. Sparse Search, Dense Search, Hybrid Search
+  - Vector Embeddings
+  - Similarity (Distance) Calculation Between Vectors
+  - Traditional Recommendation System Modules
+  - Vector Databases
+  - Indexing Algorithms: KNN, ANN, NSW, HNSW, PQ
+  - Sparse Search, Dense Search, Hybrid Search
 <!-- more -->
 
 ## 1. Vector Embeddings

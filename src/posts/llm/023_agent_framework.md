@@ -11,6 +11,10 @@ tag:
   - LlamaIndex
 ---
 # Langchain and LlamaIndex Integration
+- Langchain and LlamaIndex Individual Advantages
+- LlamaHub
+- Best Practices
+- How to Integrate
 <!-- more -->
 ## 1. Individual Advantages
 - LangChain Features

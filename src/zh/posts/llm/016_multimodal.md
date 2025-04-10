@@ -13,7 +13,7 @@ tag:
   - 多模态任务
   - 多模态大模型的训练
   - Stable Diffusion
-  - LLaVA
+  - LLaVA & Sora
 <!-- more -->
 
 ## 1. 多模态 

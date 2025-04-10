@@ -11,6 +11,12 @@ tag:
   - Parallel
 ---
 # Distributed Training Part 1: Memory Usage in Model Training
+- Model Training Process and Important Hyperparameter
+- Memory Usage in Model Training
+- Memory Optimization Suggestions
+    - Activation Recomputation / Gradient Checkpointing
+    - Gradient Accumulation
+    - Mixed Precision Training
 <!-- more -->
 ## 1. Metrics
 Objective: Fully utilize the expensive hardware of GPUs

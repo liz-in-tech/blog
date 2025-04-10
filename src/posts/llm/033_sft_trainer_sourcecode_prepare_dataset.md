@@ -8,10 +8,15 @@ category:
   - LLM
 tag:
   - SFTTrainer
-  - Sourcecode
+  - Source Code
   - Prepare Dataset
 ---
 # SFTTrainer Sourcecode -- Prepare Dataset
+- Prepare Dataset Overall Logic
+- Prepare Dataset Code Details
+    - SFTTrainer.__init__
+    - DataCollatorForLanguageModeling
+    - _prepare_dataset
 <!-- more -->
 ## 1. Prepare Dataset Overall Logic
 Overall Logic

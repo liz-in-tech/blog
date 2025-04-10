@@ -11,10 +11,10 @@ tag:
 ---
 # 提示工程 Prompt Engineering
 > 不管用什么 AI 工具，都是要把 LLM 用起来，核心点是写好 Prompt
-  - 1. 提示词的构成
-  - 2. 两大Prompt原则
-  - 3. 迭代优化Prompt
-  - 4. Prompt技术
+  - 提示词的构成
+  - 两大Prompt原则
+  - 迭代优化Prompt
+  - Prompt技术
 <!-- more -->
 
 ## 1. 提示词的构成

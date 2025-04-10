@@ -11,6 +11,10 @@ tag:
   - Challenge
 ---
 # Challenges in the Application and Implementation of RAG
+- Data Retrieval and Processing
+- Generation Optimisation and Model Design
+- Domain Knowledge and Model Adaptation
+- Scaling and Performance Optimisation
 <!-- more -->
 
 ## 1. Data Retrieval and Processing
@@ -42,7 +46,7 @@ Key Difficulties:
 - Contextual coherence: Keeping the answers semantically and logically coherent and avoiding inconsistencies.
   
 ##  3. Domain Knowledge and Model Adaptation
-### 3.1. Limitations of domain knowledge understanding.
+### 3.1. Limitations of domain knowledge understanding
 - Terminology and Contextual Understanding: Models may not have sufficient knowledge of a particular domain, resulting in inaccurate understanding of terminology and specific contexts.
 - Need for domain fine-tuning: Models need to be fine-tuned for specific domains to enhance their performance in that domain.
   

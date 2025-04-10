@@ -11,11 +11,10 @@ tag:
   - Computer Use
 ---
 # Claude 3.5 Sonnet: Computer use
-  - 1. About
-  - 2. 业界benchmarks
-  - 3. API支持
-  - 4. Computer Use 的特点
-  - 5. 未来发展方向
+  - 业界benchmarks
+  - API支持
+  - Computer Use 的特点
+  - 未来发展方向
 <!-- more -->
 
 ## 1. About

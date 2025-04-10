@@ -11,6 +11,10 @@ tag:
   - 并行
 ---
 # 分布式训练之二：并行编程 Parallel Programming
+- Broadcast
+- Reduce & AllReduce
+- Gather & AllGather
+- Scatter & ReduceScatter
 <!-- more -->
 ## 1. 概览
 - Broadcast

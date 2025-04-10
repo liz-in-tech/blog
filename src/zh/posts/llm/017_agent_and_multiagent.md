@@ -13,6 +13,7 @@ tag:
 # Agent与MultiAgent
   - Agent
   - MultiAgent
+  - ReAct
 <!-- more -->
 
 ## 1. Agent

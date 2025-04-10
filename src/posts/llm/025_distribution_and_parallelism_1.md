@@ -11,6 +11,10 @@ tag:
   - Parallel
 ---
 # Distributed Training Part 2: Parallel Programming
+- Broadcast
+- Reduce & AllReduce
+- Gather & AllGather
+- Scatter & ReduceScatter
 <!-- more -->
 ## 1. Overview
 - Broadcast

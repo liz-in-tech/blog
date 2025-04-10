@@ -12,10 +12,10 @@ tag:
   - Challenge
 ---
 # Challenges in the Commercialization of Large Language Models
-  - 1. Current Solutions for Rapid Commercial Deployment: RAG
-  - 2. Challenges in the Commercialization of LLM
-  - 3. Generation and Retrieval
-  - 4. Use Case: Implementation of an Intelligent Customer Service System
+  - Current Solutions for Rapid Commercial Deployment: RAG
+  - Challenges in the Commercialization of LLM
+  - Generation and Retrieval
+  - Use Case: Implementation of an Intelligent Customer Service System
 <!-- more -->
 
 ## 1. Current Solutions for Rapid Commercial Deployment: RAG

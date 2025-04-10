@@ -11,8 +11,8 @@ tag:
   - LeaderBoard
 ---
 # LLM Leaderboard Platform
-  - 1. The Platform for LLM evals
-  - 2. LLM Organization and Product
+  - The Platform for LLM evals
+  - LLM Organization and Product
 <!-- more -->
 
 ## 1. The Platform for LLM evals

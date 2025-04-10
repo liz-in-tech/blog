@@ -11,6 +11,10 @@ tag:
   - Parallelism
 ---
 # Distributed Training Part 3: Data Parallelism
+- Data Parallelism (DP)
+- DP Optimization
+- DP Practice
+- ZeRO-1 / ZeRO-2 / ZeRO-3 (FSDP)
 <!-- more -->
 ## 1. Overview of Data Parallelism (DP)
 Data parallelism (DP)

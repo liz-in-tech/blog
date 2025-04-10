@@ -11,6 +11,9 @@ tag:
   - LlamaIndex
 ---
 #  LlamaIndex + GraphRAG + Ollama + Neo4j
+- 官方实现改进点
+- 整体流程
+- 代码实现
 <!-- more -->
 ## 1. 官方实现改进点
 - 将openai模型替换为ollama本地模型

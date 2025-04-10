@@ -11,6 +11,18 @@ tag:
   - 并行
 ---
 # 分布式训练之四：并行策略 
+- 五个维度的并行策略
+    - batch dimension
+    - hidden_state dimension
+    - sequence dimension
+    - model_layer dimension
+    - model_expert dimension
+- 最佳训练配置
+- 张量并行 Tensor Parallelism（TP）
+- 序列并行 Sequence Parallelism (SP)
+- 上下文并行 Context Parallelism (CP)
+- 流水线并行 Pipeline parallelism (PP)
+- 专家并行 Expert Parallelism (PP)
 <!-- more -->
 ## 1. 五个维度的并行策略 5D Parallelization Strategies
 ### 1.1. 五个维度

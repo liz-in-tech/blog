@@ -10,6 +10,10 @@ tag:
   - GraphRAG
 ---
 # Microsoft GraphRAG Source Code Interpretation
+- Source Code Entry Point
+- init Source Code Logic
+- index Source Code Logic
+- query Source Code Logic
 <!-- more -->
 ## 1. Official Documentation
 GitHub: [https://github.com/microsoft/graphrag](https://github.com/microsoft/graphrag)
@@ -18,7 +22,7 @@ Get Started: [https://microsoft.github.io/graphrag/get_started/](https://microso
 
 Paper: https://arxiv.org/pdf/2404.16130
 
-## 2. Entry Point
+## 2. Source Code Entry Point
 > graphrag.cli.main.py
 
 Five functions correspond to five commands:

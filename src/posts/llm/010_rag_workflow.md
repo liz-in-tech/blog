@@ -11,10 +11,10 @@ tag:
   - Workflow
 ---
 # RAG Workflow
-  - 1. Raw Data Processing Flow
-  - 2. RAG Process in Q&A Scenarios
-  - 3. RAG Optimization Points
-  - 4. RAG Optimization
+  - Raw Data Processing Flow
+  - RAG Process in Q&A Scenarios
+  - RAG Optimization Points
+  - RAG Optimization: Query / Retriever / Ranking / Indexing Optimization
 <!-- more -->
 
 ## 1. Raw Data Processing Flow

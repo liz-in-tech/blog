@@ -10,10 +10,10 @@ tag:
   - LangChain
 ---
 # LangChain: Building Powerful Applications with Large Language Models
-  - 1. What is LangChain?
-  - 2. What Information Does the LangChain Architecture Diagram Tell Us?
-  - 3. Essential Core Modules You Need to Know
-  - 4. Experience the Function of Each Module Through Simple Example Code
+  - What is LangChain?
+  - What Information Does the LangChain Architecture Diagram Tell Us?
+  - Essential Core Modules You Need to Know
+  - Experience the Function of Each Module Through Simple Example Code
 <!-- more -->
 
 ## 1. What is LangChain?

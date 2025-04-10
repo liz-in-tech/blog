@@ -10,10 +10,10 @@ tag:
   - Streamlit
 ---
 # Building Conversational Applications with Streamlit
-- 1. Components Required for Constructing a Dialogue Interface
-- 2. Complete Process of Dialogue Interface
-- 3. Refactoring for Streaming Output of Assistant Messages
-- 4. Building an Application that Encapsulates ChatGPT
+- Components Required for Constructing a Dialogue Interface
+- Complete Process of Dialogue Interface
+- Refactoring for Streaming Output of Assistant Messages
+- Building an Application that Encapsulates ChatGPT
 <!-- more -->
 
 ## 1. Components Required for Constructing a Dialogue Interface

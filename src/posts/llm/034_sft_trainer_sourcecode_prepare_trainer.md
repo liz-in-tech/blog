@@ -8,10 +8,17 @@ category:
   - LLM
 tag:
   - SFTTrainer
-  - Sourcecode
-  - Prepare Trainer
+  - Source Code
+  - Prepare Train
 ---
 # SFTTrainer Sourcecode -- Prepare Train
+- Prepare Train Overall Logic
+- Prepare Train Code Details  
+    - _inner_training_loop
+    - training_step
+    - compute_loss
+    - PeftModelForCausalLM.forward
+    - Linear4bit.forward
 <!-- more -->
 ## 1. Prepare Train Overall Logic
 Overall Logic
@@ -65,7 +72,7 @@ for epoch in range(epochs_trained, num_train_epochs): # Epoch loop
             self._maybe_log_save_evaluate(tr_loss, grad_norm, model, trial, epoch, ignore_keys_for_eval, start_time, learning_rate=learning_rate) # Log metrics, save model checkpoints, perform evaluation
 ```
 
-## 2. Prepare Trainer Code Details  
+## 2. Prepare Train Code Details  
 ### 2.1. SFTTrainer.__init__
 ```python
 class SFTTrainer(Trainer):

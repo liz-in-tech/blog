@@ -14,6 +14,10 @@ tag:
 ---
 
 # GRPO + Unsloth + vLLM 
+- GRPO工作原理
+- GRPO vs PPO
+- GRPO的三个革命性设计
+- GRPO 代码实现
 <!-- more -->
 - GRPO (Group Relative Policy Optimization，群体相对策略优化) ：是一种强化学习方法，专注于根据特定的奖励函数优化模型的性能
 - Unsloth：用于高效微调大语言模型的框架

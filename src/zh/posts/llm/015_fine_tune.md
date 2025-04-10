@@ -11,9 +11,7 @@ tag:
 ---
 # 微调
   - 模型微调流程
-  - LoRA
-  - Llama-factory
-  - 基础开源模型
+  - LoRA 与 QLoRA
   - MoE 混合专家模型
   - RLHF 基于人类反馈的强化学习
 <!-- more -->

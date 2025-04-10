@@ -11,6 +11,9 @@ tag:
   - LlamaIndex
 ---
 # LlamaIndex + GraphRAG + Ollama + Neo4j
+- Improvements in the Official Implementation
+- Overall Process
+- Code Implementation
 <!-- more -->
 ## 1. Improvements in the Official Implementation
 - Replace the OpenAI model with the local Ollama model

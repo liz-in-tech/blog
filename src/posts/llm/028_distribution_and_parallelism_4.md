@@ -11,6 +11,10 @@ tag:
   - Parallelism
 ---
 # Distributed Training Part 5: Introduction to GPU
+- GPU Architecture
+- How to Improve Performance with Kernels
+- Fused Kernels
+- Flash Attention
 <!-- more -->
 
 ## 1. GPU Architecture

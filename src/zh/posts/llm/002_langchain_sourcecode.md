@@ -11,10 +11,10 @@ tag:
   - Source Code
 ---
 # 从源码视角，窥探LangChain的运行逻辑
-  - 1. LangChain的基类
-  - 2. LCEL 与 Runnable
-  - 3. Chain
-  - 4. AgentExecutor
+  - LangChain的基类
+  - LCEL 与 Runnable
+  - Chain 源码
+  - AgentExecutor 源码
 <!-- more -->
 
 ## 1. LangChain的基类

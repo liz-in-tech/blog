@@ -10,6 +10,9 @@ tag:
   - wandb
 ---
 # 深度学习轻量级可视化工具wandb
+- wandb 介绍
+- 常用函数
+- How to Use
 <!-- more -->
 ## 1. what
 wandb（Weights & Biases）是一个与Tensorboard类似的模型训练可视化平台。不过，相比较TensorBoard而言，Wandb更加的强大，主要体现在以下的几个方面：
@@ -37,7 +40,7 @@ wandb（Weights & Biases）是一个与Tensorboard类似的模型训练可视化
 - wandb.Image() # 图像显示
 - wandb.save() # 保存模型
 - wandb.watch()
-## 3. Usage
+## 3. How to Use
 ### 3.1. 安装wangdb库
 ```python
 !pip install wandb

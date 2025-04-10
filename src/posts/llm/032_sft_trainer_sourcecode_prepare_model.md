@@ -8,10 +8,18 @@ category:
   - LLM
 tag:
   - SFTTrainer
-  - Sourcecode
+  - Source Code
   - Prepare Model
 ---
 # SFTTrainer Sourcecode -- Prepare Model
+- Prepare Model Overall Logic
+- Prepare Model Code Details
+    - _prepare_peft_model
+    - PeftModelForCausalLM.__init__
+    - PeftModel.__init__
+    - LoraModel.__init__
+    - Linear4bit.__init__
+    - LoraLayer.__init__(self, base_layer)
 <!-- more -->
 ## 1. Prepare Model Overall Logic  
 Overall Logic  

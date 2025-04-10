@@ -11,6 +11,10 @@ tag:
   - 并行
 ---
 # 分布式训练之三：数据并行 Data Parallelism
+- Data Parallelism (DP)
+- DP 优化
+- DP 实践
+- ZeRO-1 / ZeRO-2 / ZeRO-3 (FSDP)
 <!-- more -->
 ## 1. DP概览
 Data parallelism (DP)
@@ -77,7 +81,7 @@ def register_backward_hook(self, hook):
 
 ![](../../../assets/026_dp_opt2.png)
 
-### 2.3. DB实践
+### 2.3. DP实践
 术语
 - bs: batch size 批次大小
 - mbs: micro batch size 微批次大小

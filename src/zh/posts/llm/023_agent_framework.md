@@ -11,6 +11,10 @@ tag:
   - LlamaIndex
 ---
 # Langchain and LLamaindex Integration
+- Langchain 与 LLamaindex 各自优势
+- LlamaHub
+- 最佳实践
+- 如何整合
 <!-- more -->
 ## 1. 各自优势
 - LangChain特点

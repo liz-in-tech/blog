@@ -11,6 +11,12 @@ tag:
   - 并行
 ---
 # 分布式训练之一：模型训练的内存占用
+- 模型训练过程和重要超参数
+- 模型训练的内存使用
+- 内存优化建议
+    - 激活值重新计算 Activation Recomputation / Gradient Checkpointing
+    - 梯度累积 Gradient Accumulation
+    - 混合精度训练 Mixed Precision Training
 <!-- more -->
 ## 1. 指标
 目标： 充分利用GPU这个昂贵的硬件

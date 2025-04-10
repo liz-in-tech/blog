@@ -13,7 +13,7 @@ tag:
   - Multimodal Tasks
   - Training of Multimodal Large Models
   - Stable Diffusion
-  - LLaVA
+  - LLaVA & Sora
 <!-- more -->
 
 ## 1. Multimodal

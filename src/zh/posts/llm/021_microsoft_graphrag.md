@@ -10,6 +10,10 @@ tag:
   - GraphRAG
 ---
 # 微软GraphRAG源码解读
+- 源码入口
+- init 源码逻辑
+- index 源码逻辑
+- query 源码逻辑
 <!-- more -->
 ## 1. 官方文档
 Github: [https://github.com/microsoft/graphrag](https://github.com/microsoft/graphrag)
@@ -18,7 +22,7 @@ Get Started: [https://microsoft.github.io/graphrag/get_started/](https://microso
 
 Paper: https://arxiv.org/pdf/2404.16130
 
-## 2. 入口 
+## 2. 源码入口 
 > graphrag.cli.main.py
 
 5个函数对应5个命令
@@ -562,7 +566,6 @@ async def run_summarize_descriptions(
 
 
 ## 5. query 源码逻辑
-
 四种搜索方式
 - local
 - global

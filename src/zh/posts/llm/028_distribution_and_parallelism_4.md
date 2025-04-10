@@ -11,6 +11,10 @@ tag:
   - 并行
 ---
 # 分布式训练之五：GPU入门 
+- GPU 架构
+- 如何通过 kernel 提升性能
+- Fused Kernels 融合内核
+- Flash Attention
 <!-- more -->
 
 ## 1. GPU 架构

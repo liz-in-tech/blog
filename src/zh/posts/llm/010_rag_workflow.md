@@ -11,10 +11,10 @@ tag:
   - Workflow
 ---
 # RAG工作流与RAG优化
-  - 1. 原生数据处理流
-  - 2. 问答场景中RAG的流程
-  - 3. RAG优化点
-  - 4. RAG优化
+  - 原生数据处理流
+  - 问答场景中RAG的流程
+  - RAG优化点
+  - RAG优化: Query优化 / Retriever优化 / Ranking优化 / Indexing优化
 <!-- more -->
 
 ## 1. 原生数据处理流

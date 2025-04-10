@@ -14,6 +14,10 @@ tag:
 ---
 
 # GRPO + Unsloth + vLLM 
+- How GRPO Works
+- GRPO vs PPO
+- Three Revolutionary Designs of GRPO
+- GRPO Code Implementation
 <!-- more -->
 - GRPO (Group Relative Policy Optimization): A reinforcement learning method focused on optimizing model performance based on a specific reward function.
 - Unsloth: A framework for efficiently fine-tuning large language models.

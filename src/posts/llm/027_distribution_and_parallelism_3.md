@@ -11,6 +11,18 @@ tag:
   - Parallelism
 ---
 # Distributed Training Part 4: Parallel Strategies
+- Five Dimensions of Parallelization Strategies
+    - batch dimension
+    - hidden_state dimension
+    - sequence dimension
+    - model_layer dimension
+    - model_expert dimension
+- Optimal Training Configuration
+- Tensor Parallelism（TP）
+- Sequence Parallelism (SP)
+- Context Parallelism (CP)
+- Pipeline parallelism (PP)
+- Expert Parallelism (PP)
 <!-- more -->
 ## 1. Five Dimensions of Parallelization Strategies
 ### 1.1. Five Dimensions

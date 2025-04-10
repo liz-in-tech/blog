@@ -11,9 +11,7 @@ tag:
 ---
 # Fine-tuning
   - Model Fine-tuning Process
-  - LoRA
-  - Llama-factory
-  - Base Open-Source Models
+  - LoRA & QLoRA
   - MoE: Mixture of Experts Model
   - RLHF: Reinforcement Learning from Human Feedback
 <!-- more -->

@@ -11,10 +11,10 @@ tag:
 ---
 # Prompt Engineering
 > No matter what AI tools you use, it's essential to leverage LLMs effectively, with the key point being writing good prompts.
-  - 1. Structure of Prompts
-  - 2. Two Key Principles of Prompting
-  - 3. Iterative Prompt Optimization
-  - 4. Prompt Engineering Techniques
+  - Structure of Prompts
+  - Two Key Principles of Prompting
+  - Iterative Prompt Optimization
+  - Prompt Engineering Techniques
 <!-- more -->
 
 ## 1. Structure of Prompts

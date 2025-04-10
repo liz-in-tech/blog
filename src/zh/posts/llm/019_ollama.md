@@ -10,6 +10,9 @@ tag:
   - Ollama
 ---
 # Ollama操作指南
+- 是什么
+- 作用与特点
+- 怎么使用
 <!-- more -->
 ## 1. About
 官网：https://ollama.com/

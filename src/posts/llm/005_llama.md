@@ -11,13 +11,10 @@ tag:
   - Source Code
 ---
 # Llama Source Code Exploration
-  - 1. About
-  - 2. Llama Overall Architecture
-  - 3. Llama Code Logic
-  - 4. Hyperparameters
-  - 5. Tensor Dimensionality Transformation
-  - 6. Number of Trainable Parameters  
-  - 7. Source Code
+  - Llama Overall Architecture
+  - Llama Code Logic
+  - Tensor Dimensionality Transformation
+  - Number of Trainable Parameters  
 <!-- more -->
 
 ## 1. About

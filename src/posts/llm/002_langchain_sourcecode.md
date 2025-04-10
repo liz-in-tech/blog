@@ -11,10 +11,10 @@ tag:
   - Source Code
 ---
 # From the Source Code Perspective, Peering into the Operation Logic of LangChain
-  - 1. Base Class of LangChain
-  - 2. LCEL and Runnable
-  - 3. Chain
-  - 4. AgentExecutor
+  - Base Class of LangChain
+  - LCEL and Runnable
+  - Chain Source Code
+  - AgentExecutor Source Code
 <!-- more -->
 
 ## 1. Base Class of LangChain
