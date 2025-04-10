@@ -11,7 +11,7 @@ tag:
   - Source Code
   - Prepare Model
 ---
-# SFTTrainer Sourcecode -- Prepare Model
+# SFTTrainer Source Code Exploration: Prepare Model
 - Prepare Model Overall Logic
 - Prepare Model Code Details
     - _prepare_peft_model

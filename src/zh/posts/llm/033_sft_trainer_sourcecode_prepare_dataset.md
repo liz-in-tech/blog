@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-04-09
-prev: ./034_sft_trainer_sourcecode_prepare_trainer
+prev: ./034_sft_trainer_sourcecode_prepare_train
 next: ./032_sft_trainer_sourcecode_prepare_model
 category:
   - LLM
@@ -11,7 +11,7 @@ tag:
   - Source Code
   - Prepare Dataset
 ---
-# SFTTrainer Sourcecode -- Prepare Dataset
+# SFTTrainer 源码解读: Prepare Dataset
 - Prepare Dataset 总体逻辑
 - Prepare Dataset 代码细节
     - SFTTrainer.__init__
@@ -19,6 +19,7 @@ tag:
     - _prepare_dataset
 <!-- more -->
 ## 1. Prepare Dataset 总体逻辑
+```
 总体逻辑
 - 1.如果 processing_class 为 None，则使用基础模型的 tokenizer
 - 2.处理 Data collator，在右侧填充 pad_token，使长度一致
@@ -35,6 +36,7 @@ tag:
     - 应用 tokenizer.apply_chat_template 将对话格式 "messages" 都转为文本格式：{"text": "xxx"}
     - 将 "text" 字段采用 tokenizer 进行 token 化，生成 "input_ids" 和 "attention_mask" 字段
 - 7.返回处理后的 dataset，其中一定包含三个字段：'text', 'input_ids', 'attention_mask'
+```
 
 ## 2. Prepare Dataset 代码细节
 ### 2.1. SFTTrainer.__init__
@@ -94,13 +96,13 @@ class DataCollatorForLanguageModeling(DataCollatorMixin):
             Type of Tensor to return. Only `"pt"` is currently supported.
 
     Examples:
-    >>> from trl import DataCollatorForLanguageModeling
-    >>> collator = DataCollatorForLanguageModeling(pad_token_id=0)
-    >>> examples = [
-    ...     {"input_ids": [1, 2, 3]},
-    ...     {"input_ids": [4, 5]}
-    ... ]
-    >>> collator(examples)
+    from trl import DataCollatorForLanguageModeling
+    collator = DataCollatorForLanguageModeling(pad_token_id=0)
+    examples = [
+        {"input_ids": [1, 2, 3]},
+        {"input_ids": [4, 5]}
+    ]
+    collator(examples)
     {'input_ids': tensor([[   1,   2,   3],
                           [   4,   5,   0]]),
      'attention_mask': tensor([[  1,   1,   1],

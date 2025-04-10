@@ -11,7 +11,7 @@ tag:
   - Source Code
   - Prepare Train
 ---
-# SFTTrainer Sourcecode -- Prepare Train
+# SFTTrainer 源码解读: Prepare Train
 - Prepare Train 总体逻辑
 - Prepare Train 代码细节
     - _inner_training_loop

@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-04-09
-prev: ./034_sft_trainer_sourcecode_prepare_trainer
+prev: ./034_sft_trainer_sourcecode_prepare_train
 next: ./032_sft_trainer_sourcecode_prepare_model
 category:
   - LLM
@@ -11,7 +11,7 @@ tag:
   - Source Code
   - Prepare Dataset
 ---
-# SFTTrainer Sourcecode -- Prepare Dataset
+# SFTTrainer Source Code Exploration: Prepare Dataset
 - Prepare Dataset Overall Logic
 - Prepare Dataset Code Details
     - SFTTrainer.__init__
@@ -19,22 +19,24 @@ tag:
     - _prepare_dataset
 <!-- more -->
 ## 1. Prepare Dataset Overall Logic
+```
 Overall Logic
-- 1. If `processing_class` is None, use the base model's tokenizer
-- 2. Process the Data collator by right-padding with `pad_token` to ensure consistent length
+- 1. If processing_class is None, use the base model's tokenizer
+- 2. Process the Data collator by right-padding with pad_token to ensure consistent length
 - 3. Check if the dataset column names contain "input_ids". If present, it indicates preprocessing has been done, and subsequent preprocessing steps will be skipped
-- 4. If column names contain "input_ids" (indicating preprocessing is done), `formatting_func` will be ignored. Otherwise, process with `formatting_func`
-    - Automatically determine whether to enable batch processing based on the return type of `formatting_func`, then map the dataset to format each sample as {"text": formatting_func result}
+- 4. If column names contain "input_ids" (indicating preprocessing is done), formatting_func will be ignored. Otherwise, process with formatting_func
+    - Automatically determine whether to enable batch processing based on the return type of formatting_func, then map the dataset to format each sample as {"text": formatting_func result}
 - 5. If the dataset column names contain "prompt" and "completion" fields
     - Determine whether the format is conversational (containing "role" and "content") or text-based
     - Map the dataset:
         - For conversational format, format each sample as {"messages": example["prompt"] + example["completion"]}
         - For text format, format each sample as {"text": example["prompt"] + example["completion"]}
 - 6. Perform preprocessing (skip if "input_ids" is present in column names)
-    - Convert conversational format to unified ChatML format: `{'messages': [{'role': 'user', 'content': 'What color is the sky?'}, {'role': 'assistant', 'content': 'It is blue.'}]}`
-    - Apply `tokenizer.apply_chat_template` to convert the "messages" conversational format to text format: `{"text": "xxx"}`
+    - Convert conversational format to unified ChatML format: {'messages': [{'role': 'user', 'content': 'What color is the sky?'}, {'role': 'assistant', 'content': 'It is blue.'}]}
+    - Apply tokenizer.apply_chat_template to convert the "messages" conversational format to text format: {"text": "xxx"}
     - Tokenize the "text" field using the tokenizer to generate "input_ids" and "attention_mask" fields
 - 7. Return the processed dataset, which must contain three fields: 'text', 'input_ids', 'attention_mask'
+```
 
 ## 2. Prepare Dataset Code Details  
 ### 2.1. SFTTrainer.__init__
@@ -56,8 +58,8 @@ class SFTTrainer(Trainer):
             pad_token_id = processing_class.convert_tokens_to_ids(pad_token)
             if pad_token_id is None:
                 raise ValueError(
-                    f"The specified `pad_token` ('{pad_token}') is not found in the vocabulary of the given "
-                    f"`processing_class` ({processing_class.__class__.__name__}). Ensure that the `pad_token` exists "
+                    f"The specified pad_token ('{pad_token}') is not found in the vocabulary of the given "
+                    f"processing_class ({processing_class.__class__.__name__}). Ensure that the pad_token exists "
                     "in the vocabulary before using it as a padding token."
                 )
             data_collator = DataCollatorForLanguageModeling(pad_token_id)
@@ -88,19 +90,19 @@ class DataCollatorForLanguageModeling(DataCollatorMixin):
     they are not all of the same length.
 
     Args:
-        pad_token_id (`int`):
+        pad_token_id (int):
             Token ID to use for padding.
-        return_tensors (`str`, *optional*, defaults to `"pt"`):
-            Type of Tensor to return. Only `"pt"` is currently supported.
+        return_tensors (str, *optional*, defaults to "pt"):
+            Type of Tensor to return. Only "pt" is currently supported.
 
     Examples:
-    >>> from trl import DataCollatorForLanguageModeling
-    >>> collator = DataCollatorForLanguageModeling(pad_token_id=0)
-    >>> examples = [
-    ...     {"input_ids": [1, 2, 3]},
-    ...     {"input_ids": [4, 5]}
-    ... ]
-    >>> collator(examples)
+    from trl import DataCollatorForLanguageModeling
+    collator = DataCollatorForLanguageModeling(pad_token_id=0)
+    examples = [
+        {"input_ids": [1, 2, 3]},
+        {"input_ids": [4, 5]}
+    ]
+    collator(examples)
     {'input_ids': tensor([[   1,   2,   3],
                           [   4,   5,   0]]),
      'attention_mask': tensor([[  1,   1,   1],
@@ -137,14 +139,14 @@ def _prepare_dataset():
     # Apply the formatting function if any
     if formatting_func is not None and is_processed:
         warnings.warn(
-            "You passed a dataset that is already processed (contains an `input_ids` field) together with a "
-            "formatting function. Therefore `formatting_func` will be ignored. Either remove the "
-            "`formatting_func` or pass a dataset that is not already processed.",
+            "You passed a dataset that is already processed (contains an input_ids field) together with a "
+            "formatting function. Therefore formatting_func will be ignored. Either remove the "
+            "formatting_func or pass a dataset that is not already processed.",
             UserWarning,
         )
 
     if formatting_func is not None and not is_processed:
-        if isinstance(dataset, Dataset):  # `IterableDataset.map` does not support `desc`
+        if isinstance(dataset, Dataset):  # IterableDataset.map does not support desc
             map_kwargs["desc"] = f"Applying formatting function to {dataset_name} dataset"
 
         batched = isinstance(formatting_func(next(iter(dataset))), list)
@@ -166,7 +168,7 @@ def _prepare_dataset():
 
     if not is_processed:
         # Convert the dataset to ChatML if needed
-        if isinstance(dataset, Dataset):  # `IterableDataset.map` does not support `desc`
+        if isinstance(dataset, Dataset):  # IterableDataset.map does not support desc
             map_kwargs["desc"] = f"Converting {dataset_name} dataset to ChatML"
         column_names = next(iter(dataset)).keys()
         dataset = dataset.map(
@@ -176,7 +178,7 @@ def _prepare_dataset():
         )
 
         # Apply the chat template if needed
-        if isinstance(dataset, Dataset):  # `IterableDataset.map` does not support `desc`
+        if isinstance(dataset, Dataset):  # IterableDataset.map does not support desc
             map_kwargs["desc"] = f"Applying chat template to {dataset_name} dataset"
         column_names = next(iter(dataset)).keys()
         dataset = dataset.map(
@@ -187,7 +189,7 @@ def _prepare_dataset():
         )
 
         # Tokenize the dataset if needed
-        if isinstance(dataset, Dataset):  # `IterableDataset.map` does not support `desc`
+        if isinstance(dataset, Dataset):  # IterableDataset.map does not support desc
             map_kwargs["desc"] = f"Tokenizing {dataset_name} dataset"
 
         def tokenize(example, processing_class, dataset_text_field):

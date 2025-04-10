@@ -11,7 +11,7 @@ tag:
   - Source Code
   - Prepare Model
 ---
-# SFTTrainer Sourcecode -- Prepare Model
+# SFTTrainer 源码解读: Prepare Model
 - Prepare Model 总体逻辑
 - Prepare Model 代码细节
     - _prepare_peft_model
@@ -36,7 +36,7 @@ tag:
             - self.lora_A[adapter_name] = nn.Linear(self.in_features, r, bias=False)
             - self.lora_B[adapter_name] = nn.Linear(r, self.out_features, bias=lora_bias)
         - 激活 adapter layer：layer.requires_grad_(True)
-- 7.如果args.bf16==True & model.is_loaded_in_4bit==True，将部分模块 weight 转为 bfloat16
+- 7.如果args.bf16 为 True 且 model.is_loaded_in_4bit 为 True，将部分模块 weight 转为 bfloat16
 
 ## 2. Prepare Model 代码细节
 ### 2.1. SFTTrainer.__init__
