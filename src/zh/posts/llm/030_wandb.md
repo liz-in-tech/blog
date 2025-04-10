@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-03-10
-prev: false
+prev: ./031_qlora
 next: ./029_unsloth_grpo
 category:
   - LLM
@@ -11,7 +11,7 @@ tag:
 ---
 # 深度学习轻量级可视化工具wandb
 <!-- more -->
-## what
+## 1. what
 wandb（Weights & Biases）是一个与Tensorboard类似的模型训练可视化平台。不过，相比较TensorBoard而言，Wandb更加的强大，主要体现在以下的几个方面：
 - 4项核心功能（wandb并不单纯的是一款数据可视化工具。它具有更为强大的模型和数据版本管理。此外，还可以对你训练的模型进行调优）
     - Dashboard 看板：跟踪训练过程，给出可视化结果
@@ -29,7 +29,7 @@ wandb（Weights & Biases）是一个与Tensorboard类似的模型训练可视化
 
 ![](../../../assets/030_wandb.png)
 
-## 常用函数
+## 2. 常用函数
 - wandb.init() # 初始化
     - project: 项目名称
 - wandb.config # 超参数配置
@@ -37,19 +37,19 @@ wandb（Weights & Biases）是一个与Tensorboard类似的模型训练可视化
 - wandb.Image() # 图像显示
 - wandb.save() # 保存模型
 - wandb.watch()
-## Usage
-### 安装wangdb库
+## 3. Usage
+### 3.1. 安装wangdb库
 ```python
 !pip install wandb
 ```
 
-### 官网注册获取API Key
+### 3.2. 官网注册获取API Key
 官网：[https://wandb.ai/](https://wandb.ai/)
 
 一般用google账户或者github账户注册都行， 注册时注意保存username
 注册成功会在这个页面有注册信息展示，api key也是在这个页面获取的
 
-### 在终端运行wandb login
+### 3.3. 在终端运行wandb login
 ```python
 wandb.login()
 ```
@@ -57,18 +57,18 @@ wandb.login()
 
 自动登录设置：运行 wandb login命令后， 会在/root/.netrc 下生成.netrc文件， 修改这个文件，这里的password就是第二步获取的api key，之后就不用输密码了
 
-### 初始化
+### 3.4. 初始化
 ```python
 import wandb
 
 wandb.init(project="my-project")
 ```
-### 声明超参数
+### 3.5. 声明超参数
 ```python
 wandb.config.dropout = 0.2
 wandb.config.hidden_layer_size = 128
 ```
-### 记录日志
+### 3.6. 记录日志
 ```python
 def my_train_loop():
     for epoch in range(10):
@@ -76,7 +76,7 @@ def my_train_loop():
         wandb.log({'epoch': epoch, 'loss': loss})
 ```
 
-### 发出报警
+### 3.7. 发出报警
 ```
 acc_threshold = 0.3
 if accuracy <= acc_threshold:
@@ -86,10 +86,10 @@ if accuracy <= acc_threshold:
         )
 ```
 
-### 保存文件
+### 3.8. 保存文件
 ```python
 wandb.save("mymodel.h5")
 ```
 
-### 查看wandb看板
+### 3.9. 查看wandb看板
 打开运行结果里有火箭那一行的链接，浏览器中出现界面就说明成功了。
