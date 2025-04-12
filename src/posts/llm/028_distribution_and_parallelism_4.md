@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-03-06
-prev: false
+prev: ./029_unsloth_grpo
 next: ./027_distribution_and_parallelism_3
 category:
   - LLM
