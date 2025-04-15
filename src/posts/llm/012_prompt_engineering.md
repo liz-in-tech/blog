@@ -110,6 +110,16 @@ Few-shot + CoT + multi-path reasoning consistency.
 
 Sample multiple different reasoning paths and choose the most consistent answer based on generated results.
 
+### 4.5. Chain of Draft，CoD
+
+![CoD](../../assets/012_cod.png)
+
+CoD limits each reasoning step to no more than x tokens on the basis of CoT, yet achieves surprisingly good results while also reducing costs.
+
+Proposed by the Zoom research team, it draws inspiration from the concise thinking patterns humans use when solving complex problems—only recording key information—with the goal of improving reasoning efficiency and significantly cutting computational costs. Compared to CoT, it dramatically reduces token usage and latency.
+
+Paper: https://arxiv.org/pdf/2502.18600
+
 ## 5. Accumulation
 - Represent varying parts of the prompt with variables.
   - Use delimiters or headings to organize content into sections, making it easier for the model to understand:
