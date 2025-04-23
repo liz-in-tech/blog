@@ -16,7 +16,12 @@ tag:
 - Gather & AllGather
 - Scatter & ReduceScatter
 <!-- more -->
-## 1. Overview
+## 0. Point-to-Point Communication vs. Collective Communication
+Point-to-Point Communication is a network communication model in which two or more computers or devices communicate directly with each other without going through a central server or centralized system. In this model, each participant can act as both a client and a server, capable of directly exchanging information or sharing resources with other nodes.
+
+Collective Communication refers to the process in which a group of computing nodes or processing units collaborate, exchange information, or perform communication operations together. This type of communication involves the collective participation of multiple nodes, rather than just individual point-to-point exchanges. It is commonly used in parallel computing, distributed systems, and cluster computing to coordinate and manage the transmission, processing, and synchronization of data across multiple nodes.
+
+## 1. Collective Communication Overview
 - Broadcast
 - Reduce
 - AllReduce

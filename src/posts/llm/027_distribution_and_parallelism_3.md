@@ -47,6 +47,11 @@ tag:
 
 ![](../../assets/027_combine_strategies.png)
 
+Three Most Common Parallel Strategies (3D Parallelism)
+- DP
+- TP
+- PP
+
 ### 1.3. Impact Scope
 - TP & SP: Affect the entire model's computation by sharding weights and activations
 - CP: Mainly affects the attention layer, as that's where cross-sequence communication is needed, while other layers run independently on sharded sequences
@@ -90,7 +95,7 @@ Considerations
     - At scales of more than 1024 GPUs
         - Recommended configuration can be tensor parallelism (TP=8) combined with data parallelism (ZeRO-2) and pipeline parallelism
     - Special considerations
-        - For ultra-long sequences: CC
+        - For ultra-long sequences: CP
         - For MoE architectures: EP
 - Limited GPU resources
     - Full activation recomputation trades time for space (training is somewhat slow)
