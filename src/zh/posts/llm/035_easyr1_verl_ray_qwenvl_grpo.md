@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-04-12
-prev: false
+prev: ./036_mcp
 next: ./034_sft_trainer_sourcecode_prepare_train
 category:
   - LLM
