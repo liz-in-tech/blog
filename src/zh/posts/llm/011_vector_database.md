@@ -41,17 +41,17 @@ tag:
 
 点积和余弦距离这两个在NLP领域广泛使用
 
-- 欧几里得距离 Euclidean Distance(L2)
-  - 计算最短路径
-  - 较小的值是更好的匹配
-
-![](../../../assets/011_euclidean_distance.png)
-
-- 曼哈顿距离 Manhattan Distance(L1)
+- 曼哈顿距离 (L1距离) Manhattan Distance
   - 每次只能以一个方向轴移动
   - 较小的值是更好的匹配
 
 ![](../../../assets/011_manhattan_distance.png)
+
+- 欧几里得距离 (L2距离， 欧氏距离) Euclidean Distance
+  - 计算最短路径
+  - 较小的值是更好的匹配
+
+![](../../../assets/011_euclidean_distance.png)
 
 - 点积 Dot Product
   - 一个向量在另一个向量上的投影
