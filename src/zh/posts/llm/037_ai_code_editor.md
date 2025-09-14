@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-06-29
-prev: false
+prev: ./038_bert_colbert_colpali
 next: ./036_mcp
 category:
   - LLM
