@@ -2,7 +2,7 @@
 icon: lightbulb
 sidebar: false
 date: 2025-09-14
-prev: false
+prev: ./039_n8n
 next: ./037_ai_code_editor
 category:
   - LLM
