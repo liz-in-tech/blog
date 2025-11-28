@@ -14,7 +14,7 @@ tag:
 
 # CrewAI: The Leading Multi-Agent Framework
 
-- Two Automation Methods in CrewAI: Crews & Flows
+- Two Automation Modes in CrewAI: Crews & Flows
 - Flow Control Logic of CrewAI Flows
 - Three Modular Components of CrewAI Crews (Agents, Tasks, Crews)
 - CrewAI Use Case: Stock Analysis System
@@ -48,7 +48,7 @@ Agent vs. Multi-Agent
     -   Further Enhancement: Self-Improvement Loop: A self-improvement mechanism that continuously optimizes decision logic and execution results through feedback.
         -   Agents learn and optimize through memory, outputting more reliable results over time.
 
-## Two Automation Methods in CrewAI: Crews & Flows
+## Two Automation Modes in CrewAI: Crews & Flows
 
 ![](../../assets/041_crewai.png)
 

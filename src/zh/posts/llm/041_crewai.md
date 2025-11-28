@@ -13,7 +13,7 @@ tag:
 ---
 # CrewAI: 主流的多智能体框架
 
-- CrewAI的两种自动化方式：Crews & Flows
+- CrewAI的两种自动化模式：Crews & Flows
 - CrewAI Flows的流程控制逻辑
 - CrewAI Crews的三大模块化组件（Agents，Tasks，Crews）
 - CrewAI使用案例：股票分析系统
@@ -44,7 +44,7 @@ Agent vs Multi-Agent
     - 更进一步：Self-Improvement Loop: 自我改进机制，通过反馈不断优化决策逻辑与执行结果
         - 智能体通过记忆学习与优化，随着时间推移输出更加可靠
 
-## CrewAI的两种自动化方式：Crews & Flows
+## CrewAI的两种自动化模式：Crews & Flows
 
 ![](../../../assets/041_crewai.png)
 
