@@ -41,8 +41,9 @@ Agent vs. Multi-Agent
 -   Multi-Agent
     -   High Specialization: Each agent focuses only on specific tasks.
         -   Each agent should only undertake a specific task scope, controlling context length and the number of tools.
-            -   Tools should be carefully selected and highly matched to the task. Too many tools can lead to model selection difficulties or misuse, especially affecting the performance of small models.
+            -   Tools should be carefully selected and highly matched to the task. Too many tools can lead to model selection difficulties or misuse, especially affecting the performance of small models. The system enhances security by making sure that each agent only has access to the tools necessary for its task, reducing the potential for unauthorized access to sensitive data.
     -   Multi-Agent Collaboration: Simulates human team communication and feedback. Agents should be able to exchange information, review each other, and delegate tasks, forming a feedback loop to improve result quality.
+    - Complex workflow handling：The system can manage advanced and complex workflows by distributing tasks among multiple agents.
     -   Model Flexibility: Different agents can adopt different models according to task characteristics.
     -   Overall Quality Improvement: Compared to a single agent performing multiple tasks, multiple highly focused agents collaborating can often generate more accurate and professional results.
     -   Further Enhancement: Self-Improvement Loop: A self-improvement mechanism that continuously optimizes decision logic and execution results through feedback.
